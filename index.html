@@ -237,10 +237,7 @@
                         <span>Evaluate Guardrails</span>
                     </button>
                 </div>
-// Automatically routes requests to your live backend endpoint
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:8000' 
-    : 'https://your-brandguard-backend.onrender.com'; // Insert your live Render URL here
+
                 <!-- Right Response Panel (7 cols) -->
                 <div class="lg:col-span-7 bg-slate-950/60 rounded-xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
                     <div>
@@ -413,7 +410,7 @@ const API_BASE = window.location.hostname === 'localhost' || window.location.hos
         // Target API base URL with failover
         const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:8000'
-            : 'https://brandguard-backend.onrender.com';
+            : 'https://brandguard-ai-xk18.onrender.com';
 
         let selectedBase64Image = null;
         let totalEvaluated = 14289;
