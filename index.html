@@ -1,803 +1,217 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandGuard AI - Enterprise AI Gateway & Compliance Engine</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#ecfdf5',
-                            100: '#d1fae5',
-                            500: '#10b981',
-                            600: '#059669',
-                            700: '#047857',
-                            900: '#064e3b',
-                            950: '#022c22',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Font & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(51, 65, 85, 0.6);
-        }
-        .glow-emerald {
-            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.2);
-        }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080b14" />
+  <title>BrandGuard AI — Compliance Command Center</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+    :root{--bg:#080b14;--panel:#101624;--panel2:#0c1220;--line:#202b3d;--muted:#8995a9;--text:#edf3ff;--accent:#7c8cff;--cyan:#4bd7d0;--green:#3dd6a0;--amber:#f4bd62;--red:#ff7185;--radius:18px}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% -10%,#1a2850 0,transparent 38%),radial-gradient(ellipse at 90% 0%,#12343b 0,transparent 28%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+    button,input,textarea,select{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.sidebar{width:248px;flex-shrink:0;border-right:1px solid var(--line);background:rgba(8,12,22,.82);padding:24px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+    .brand{display:flex;align-items:center;gap:12px;padding:0 10px 30px}.logo{width:39px;height:39px;border-radius:13px;background:linear-gradient(135deg,#8b9aff,#4bd7d0);display:grid;place-items:center;color:#07111b;font:700 15px 'Space Grotesk';box-shadow:0 8px 28px #7186ff33}.brand strong{font:700 16px 'Space Grotesk';letter-spacing:-.4px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+    .nav-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#68758a;padding:0 12px;margin:10px 0}.nav{display:grid;gap:6px}.nav a{color:#9aa6b9;text-decoration:none;padding:11px 12px;border-radius:11px;display:flex;gap:12px;align-items:center;font-size:13px;transition:.2s}.nav a:hover,.nav a.active{background:#19243a;color:#fff}.nav a.active{box-shadow:inset 2px 0 #8b9aff}.nav-icon{width:18px;text-align:center;font-size:15px}.sidebar-bottom{margin-top:auto}.system-card{border:1px solid var(--line);background:#0d1524;border-radius:14px;padding:13px;margin:12px 4px}.system-card small{color:var(--muted);font-size:10px}.system-row{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:8px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #3dd6a0}
+    .main{flex:1;min-width:0;padding:26px clamp(18px,3vw,42px) 38px;max-width:1600px;margin:0 auto;width:100%}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:16px}.crumb{color:var(--muted);font-size:12px}.crumb b{color:#e8eeff;font-weight:600}.top-actions{display:flex;align-items:center;gap:12px}.live-pill{border:1px solid #245445;background:#0c251f;color:#75e7bd;border-radius:30px;padding:8px 12px;font-size:11px;display:flex;gap:8px;align-items:center}.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4bd7d0,#7888ff);display:grid;place-items:center;color:#07111b;font-weight:700;font-size:12px}
+    .hero{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:25px}.eyebrow{color:#91a0ff;text-transform:uppercase;letter-spacing:1.7px;font-size:10px;font-weight:700;margin-bottom:10px}.hero h1{font:700 clamp(25px,3vw,35px) 'Space Grotesk';letter-spacing:-1.1px;margin:0}.hero p{color:var(--muted);font-size:13px;line-height:1.7;max-width:650px;margin:10px 0 0}.hero-tag{white-space:nowrap;border:1px solid #303b5c;background:#151e35;color:#b7c1ff;border-radius:9px;padding:9px 12px;font-size:11px}
+    .grid{display:grid;gap:15px}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:22px}.card{background:linear-gradient(145deg,rgba(19,28,45,.96),rgba(13,19,32,.96));border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 35px #00000014}.metric{padding:19px 20px;position:relative;overflow:hidden}.metric:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-35px;top:-38px;background:#7c8cff0d}.metric-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px}.metric-icon{width:30px;height:30px;border-radius:9px;background:#202b45;display:grid;place-items:center;color:#aab5ff;font-size:14px}.metric-value{font:700 27px 'Space Grotesk';margin:13px 0 4px;letter-spacing:-.8px}.metric-foot{font-size:10px;color:#8492a8}.positive{color:var(--green)}.work-grid{grid-template-columns:minmax(0,1.8fr) minmax(270px,1fr);align-items:start}.panel{padding:22px}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:17px;border-bottom:1px solid var(--line);margin-bottom:18px}.panel h2,.panel h3{font:600 15px 'Space Grotesk';margin:0}.sub{color:var(--muted);font-size:11px;margin-top:5px}.endpoint{font:10px ui-monospace,monospace;color:#a6b1c5;background:#0a101c;border:1px solid var(--line);padding:6px 8px;border-radius:7px}
+    .preset-row{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #2a3650;background:#1a2539;color:#d9e2f3;border-radius:9px;padding:9px 12px;font-size:11px;transition:.2s}.btn:hover{background:#253451;border-color:#52638a}.btn-primary{background:linear-gradient(135deg,#aab5ff,#7c8cff);color:#08101e;border:0;font-weight:700;padding:11px 16px;box-shadow:0 7px 20px #7c8cff25}.btn-primary:hover{filter:brightness(1.08)}.btn-primary:disabled{opacity:.6;cursor:wait}.btn-small{padding:7px 10px;font-size:10px}
+    .field{margin-bottom:15px}.field label{display:block;color:#aab6c9;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}.field input,.field textarea,.field select{width:100%;background:#090f1b;border:1px solid #263248;border-radius:10px;color:#eaf0ff;padding:12px 13px;font-size:12px;outline:none;transition:.2s}.field textarea{resize:vertical;min-height:112px;font-family:ui-monospace,monospace;line-height:1.6}.field input:focus,.field textarea:focus,.field select:focus{border-color:#7c8cff;box-shadow:0 0 0 3px #7c8cff18}.field input[type=file]{padding:8px;font-size:10px;color:var(--muted)}.form-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.upload-label{font-size:11px;color:var(--muted)}.result{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}.result-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.section-label{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:#8996ab;font-weight:700}.status{font:10px ui-monospace,monospace;border-radius:20px;padding:6px 10px;background:#202b3d;color:#c4cede}.status.good{background:#0e3028;color:#73e6bd}.status.warn{background:#332715;color:#ffd18a}.status.bad{background:#391d29;color:#ff9cac}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.chip{border:1px solid var(--line);background:#0b1220;color:#aab6c8;padding:7px 9px;border-radius:8px;font:10px ui-monospace,monospace}.output{border:1px solid #285443;background:linear-gradient(135deg,#0c211e,#0c171d);padding:14px;border-radius:12px;margin:12px 0}.output-head{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#82e6bd;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}.output p{font-size:12px;line-height:1.7;color:#d4f6e9;margin:10px 0 0;white-space:pre-wrap}.signoff{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#0a101b;border:1px solid var(--line);border-radius:11px;padding:12px;margin:12px 0}.signoff code{font-size:10px;color:#b9c5d9}.signoff select{background:#121c2d;color:#dbe4f4;border:1px solid #34425a;padding:7px;border-radius:7px;font-size:10px}.json{background:#080d17;border:1px solid var(--line);border-radius:11px;padding:13px;max-height:220px;overflow:auto;color:#aebbd0;font:10px/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+    .side-stack{display:grid;gap:15px}.health-card{padding:20px}.health-head{display:flex;justify-content:space-between;align-items:center}.health-score{font:700 24px 'Space Grotesk';color:var(--green)}.health-track{height:7px;background:#263248;border-radius:10px;overflow:hidden;margin:14px 0 8px}.health-fill{height:100%;width:94.8%;background:linear-gradient(90deg,#3dd6a0,#4bd7d0);border-radius:10px}.health-caption{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.bottleneck{margin-top:17px}.bottleneck-line{display:flex;justify-content:space-between;color:#cbd5e5;font-size:11px;margin-bottom:7px;gap:10px}.bottleneck-line span:last-child{color:var(--muted);font:10px ui-monospace,monospace}.bar{height:5px;border-radius:10px;background:#263248;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,#7788ff,#4bd7d0);border-radius:10px}.standards{padding:20px}.standard{display:flex;align-items:center;gap:10px;color:#b6c2d4;font-size:11px;padding:10px 0;border-bottom:1px solid #1b2638}.standard:last-child{border:0;padding-bottom:0}.check{width:19px;height:19px;border-radius:6px;background:#103329;color:#6de2b5;display:grid;place-items:center;font-size:11px;flex-shrink:0}
+    .audit{margin-top:20px;padding:21px}.audit-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px;text-align:left}th{font-size:9px;color:#7f8ca2;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:11px 10px;border-bottom:1px solid var(--line)}td{font:10px ui-monospace,monospace;color:#b9c5d7;padding:13px 10px;border-bottom:1px solid #1b2638}tbody tr:hover{background:#ffffff05}.empty{text-align:center;color:#718097;padding:25px;font:11px 'DM Sans'}.risk{font-weight:700}.risk-high{color:var(--red)}.risk-mid{color:var(--amber)}.risk-low{color:var(--green)}.footer{display:flex;justify-content:space-between;gap:12px;color:#65738a;font-size:10px;margin-top:25px;padding:0 3px}.footer a{color:#9ba9c0;text-decoration:none}
+    .hidden{display:none!important}.toast{position:fixed;right:22px;bottom:22px;background:#17243a;border:1px solid #354664;color:#e8efff;border-radius:11px;padding:12px 16px;font-size:12px;box-shadow:0 15px 40px #0008;z-index:20;display:none}
+    @media(max-width:1100px){.sidebar{width:210px}.metrics{grid-template-columns:repeat(2,1fr)}.work-grid{grid-template-columns:1fr}.side-stack{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:700px){.app{display:block}.sidebar{position:relative;width:100%;height:auto;padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0 4px 12px}.nav-label,.sidebar-bottom{display:none}.nav{display:flex;overflow-x:auto}.nav a{white-space:nowrap;padding:9px 11px}.main{padding:20px 14px 28px}.topbar{margin-bottom:22px}.hero{display:block}.hero-tag{display:inline-block;margin-top:15px}.metrics{gap:10px}.metric{padding:15px}.metric-value{font-size:23px}.side-stack{grid-template-columns:1fr}.panel{padding:16px}.panel-head{display:block}.endpoint{display:inline-block;margin-top:10px}.footer{display:block;line-height:2}.form-bottom{align-items:stretch}.form-bottom .btn-primary{width:100%}}
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-emerald-500 selection:text-slate-950 flex flex-col justify-between">
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">BG</div><div><strong>BrandGuard AI</strong><small>COMPLIANCE COMMAND CENTER</small></div></div>
+    <div class="nav-label">Workspace</div>
+    <nav class="nav">
+      <a class="active" href="#overview"><span class="nav-icon">◫</span>Overview</a>
+      <a href="#reviewer"><span class="nav-icon">✳</span>AI Reviewer</a>
+      <a href="#analytics"><span class="nav-icon">▥</span>Analytics</a>
+      <a href="#audit"><span class="nav-icon">◷</span>Audit trail</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="nav-label">System</div>
+      <div class="system-card"><small>PIPELINE STATUS</small><div class="system-row"><span class="dot" id="systemDot"></span><b id="systemStatusText">Checking backend…</b></div><small style="display:block;margin-top:8px">FastAPI · Gemini · Audit service</small></div>
+    </div>
+  </aside>
 
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800 bg-slate-950/90">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-emerald-500/20">
-                    <i data-lucide="shield-check" class="w-5 h-5 text-slate-950 stroke-[2.5]"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-base sm:text-lg tracking-tight leading-none text-white flex items-center gap-2">
-                        BrandGuard <span class="text-emerald-400 font-extrabold">AI</span>
-                    </h1>
-                    <p class="text-xs text-slate-400 font-medium">Enterprise AI Gateway & Compliance Engine</p>
-                </div>
-            </div>
+  <main class="main" id="overview">
+    <div class="topbar">
+      <div class="crumb">Workspace <span style="color:#536078">/</span> <b>Overview</b></div>
+      <div class="top-actions"><div class="live-pill" id="pipelinePill"><span class="dot" id="pipelineDot"></span><span id="pipelineStatusText">Connecting…</span></div><div class="avatar">BG</div></div>
+    </div>
 
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Engine: <strong class="text-emerald-400 font-medium">Gemini 2.5 Flash</strong></span>
-                </div>
-                <div id="connectionStatusBadge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                    <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
-                    <span id="connectionStatusText">Live / Fallback Active</span>
-                </div>
-                <a href="https://github.com/guptakavyansh639-cloud/brandguard-ai2.git" rel="noopener noreferrer" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 transition-colors border border-slate-700">
-                    <i data-lucide="github" class="w-4 h-4"></i>
-                    <span>Repository</span>
-                </a>
-            </div>
+    <section class="hero">
+      <div><div class="eyebrow">✦ Round 3 · Production suite</div><h1>Compliance command center</h1><p>Protect every publication with intelligent content review, brand policy enforcement and a traceable approval workflow.</p></div>
+      <div class="hero-tag">✧ Powered by Gemini 2.5 Flash</div>
+    </section>
+
+    <section class="grid metrics">
+      <div class="card metric"><div class="metric-head">Total evaluated <span class="metric-icon">⌁</span></div><div class="metric-value">14,289</div><div class="metric-foot"><span class="positive">↗ 14.2%</span> audit volume</div></div>
+      <div class="card metric"><div class="metric-head">Threats neutralized <span class="metric-icon">⬡</span></div><div class="metric-value">184</div><div class="metric-foot">1.28% violation rate</div></div>
+      <div class="card metric"><div class="metric-head">Pipeline latency <span class="metric-icon">◷</span></div><div class="metric-value">4<span style="font-size:14px;color:#8492a8">ms</span> / 290<span style="font-size:14px;color:#8492a8">ms</span></div><div class="metric-foot">Regex screening · Gemini review</div></div>
+      <div class="card metric"><div class="metric-head">Guideline health <span class="metric-icon">✓</span></div><div class="metric-value" id="metricHealthScore" style="color:var(--green)">94.8%</div><div class="metric-foot">Zero unverified publishes</div></div>
+    </section>
+
+    <div class="grid work-grid">
+      <section class="card panel" id="reviewer">
+        <div class="panel-head"><div><h2>AI guardrail reviewer</h2><div class="sub">Run a live compliance check on your content before publishing.</div></div><div class="endpoint">POST /api/review/analyze</div></div>
+        <div class="preset-row" style="margin-bottom:18px"><button class="btn btn-small" id="cleanPreset">✦ Clean preset</button><button class="btn btn-small" id="violationPreset">⚑ Violation preset</button></div>
+        <div class="field"><label for="brandRulesInput">Brand guidelines & competitor rules</label><input id="brandRulesInput" type="text" value="Tone: Professional & Empathetic. Never mention rival AcmeCorp. No 100% guaranteed financial returns." /></div>
+        <div class="field"><label for="promptInput">Submission text payload</label><textarea id="promptInput" placeholder="Enter ad copy, prompt response, or marketing draft...">Excited to announce our new partnership! Reach our founder at ceo@brandguard.ai or call 555-0199. Unlike AcmeCorp, we offer 100% guaranteed financial returns on day one!</textarea></div>
+        <div class="form-bottom"><div><label class="upload-label" for="imageUpload">＋ Attach image for multi-modal scan</label><input id="imageUpload" type="file" accept="image/jpeg" style="display:block;max-width:240px;margin-top:7px" /><small style="display:block;color:var(--muted);font-size:10px;margin-top:5px">JPEG only · up to 5 MB</small></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
+
+        <div class="result">
+          <div class="result-top"><div class="section-label">Live inspection response</div><span id="responseStatusBadge" class="status">Idle</span></div>
+          <div class="chips"><span id="sandboxBadge" class="chip">Sandbox: Standby</span><span id="escalationBadge" class="chip">Routing: Awaiting input</span></div>
+          <div id="remediationCard" class="output hidden"><div class="output-head"><span>✦ Suggested safe rewrite</span><button class="btn btn-small" id="copySafe">Copy rewrite</button></div><p id="sanitizedText"></p></div>
+          <div id="signOffPanel" class="signoff hidden"><div><div class="section-label" style="margin-bottom:6px">Version SHA-256</div><code id="versionHashDisplay">--</code></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select id="approverRole"><option value="Legal Counsel">Legal Counsel</option><option value="Brand Lead">Brand Lead</option><option value="SecOps Officer">SecOps Officer</option></select><button class="btn btn-primary btn-small" id="lockVersionBtn">Lock & sign off</button></div></div>
+          <div class="section-label" style="margin:17px 0 8px">Raw JSON response</div><pre id="rawJsonResponse" class="json">// Response payload will render here after execution...</pre>
         </div>
-    </header>
+      </section>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-grow w-full">
-
-        <!-- Hero Title Section -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                    Autonomous Safety & Brand Protection Suite
-                </h2>
-                <p class="text-sm text-slate-400 mt-1 max-w-2xl">
-                    Real-time two-stage AI guardrail: Stage 1 local PII regex filtering combined with Stage 2 Gemini 2.5 Flash multi-modal semantic compliance scanning.
-                </p>
-            </div>
-            <div class="flex items-center gap-2 self-start md:self-auto">
-                <button onclick="scrollToReviewer()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2">
-                    <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i>
-                    <span>Test Guardrail Live</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Metric KPI Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Card 1 -->
-            <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group">
-                <div class="flex items-center justify-between text-slate-400 mb-2">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Total Evaluated</span>
-                    <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
-                </div>
-                <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="totalEvaluatedCount">14,289</div>
-                <div class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                    <span class="text-emerald-400 font-semibold">↑ 12%</span> vs last 24h
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group">
-                <div class="flex items-center justify-between text-slate-400 mb-2">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Violations Intercepted</span>
-                    <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
-                </div>
-                <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="threatsBlockedCount">184</div>
-                <div class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                    <span class="text-amber-400 font-semibold">1.28%</span> policy violation rate
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group">
-                <div class="flex items-center justify-between text-slate-400 mb-2">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Two-Stage Latency</span>
-                    <i data-lucide="zap" class="w-4 h-4 text-teal-400"></i>
-                </div>
-                <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono">
-                    4ms <span class="text-sm font-normal text-slate-400">/</span> 290ms
-                </div>
-                <div class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                    <span class="text-teal-400 font-medium">Stage 1 Regex • Stage 2 Gemini</span>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group">
-                <div class="flex items-center justify-between text-slate-400 mb-2">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Guardrail Health</span>
-                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-                </div>
-                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">99.9%</div>
-                <div class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                    <span class="text-emerald-400 font-semibold">Operational</span> • 0 degraded nodes
-                </div>
-            </div>
-        </div>
-
-        <!-- PRIORITY SECTION: Interactive Guardrail Reviewer -->
-        <section id="interactiveReviewer" class="glass-panel rounded-2xl p-4 sm:p-6 border-slate-800 glow-emerald scroll-mt-20">
-            <div class="flex flex-col md:flex-row md:items-center justify-between pb-5 border-b border-slate-800 gap-4">
-                <div>
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i data-lucide="terminal" class="w-5 h-5 text-emerald-400"></i>
-                        Interactive Guardrail Reviewer
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Test prompts, image assets, and custom brand guidelines with real-time remediation.</p>
-                </div>
-
-                <!-- One-Click Preset Scenarios -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-xs text-slate-400 font-medium mr-1">Presets:</span>
-                    <button onclick="loadAndRunPreset('pii')" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-medium text-amber-300 hover:border-amber-500/50 transition-colors">
-                        ⚠️ PII & Competitor Leak
-                    </button>
-                    <button onclick="loadAndRunPreset('financial')" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-medium text-rose-300 hover:border-rose-500/50 transition-colors">
-                        💸 Financial ROI Claim
-                    </button>
-                    <button onclick="loadAndRunPreset('clean')" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-medium text-emerald-300 hover:border-emerald-500/50 transition-colors">
-                        ✅ Clean Ad Copy
-                    </button>
-                </div>
-            </div>
-
-            <!-- Main Input / Output Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
-                
-                <!-- Left Input Column (5 cols) -->
-                <div class="lg:col-span-5 space-y-4">
-                    <!-- Feature 1: Custom Brand Guidelines Input (Left Panel, above Textarea) -->
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center justify-between">
-                            <span>Custom Brand Guidelines</span>
-                            <span class="text-emerald-400 text-[10px] lowercase font-mono">active rules</span>
-                        </label>
-                        <input id="brandRulesInput" type="text" 
-                            value="Tone: Empathetic & Professional. Never mention rival 'AcmeAI'. Never promise 100% guaranteed ROI."
-                            class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all font-mono" />
-                    </div>
-
-                    <!-- Input Content / Ad Copy Textarea -->
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                            Input Content / Ad Copy
-                        </label>
-                        <textarea id="promptInput" rows="4" 
-                            class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3.5 text-xs text-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all font-mono leading-relaxed"
-                            placeholder="Paste text, marketing copy, or prompt here..."></textarea>
-                    </div>
-
-                    <!-- Feature 2: Multi-Modal Image Preset / Upload (Left Panel, below Textarea) -->
-                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                                <i data-lucide="image" class="w-3.5 h-3.5 text-teal-400"></i>
-                                Multi-Modal Ad Scan (Optional Image)
-                            </label>
-                            <span id="imageSelectedBadge" class="hidden text-[10px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded-full font-medium">Image Loaded</span>
-                        </div>
-                        <input id="imageUpload" type="file" accept="image/*" onchange="handleImageSelection(this)" 
-                            class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-500/20 file:text-emerald-300 hover:file:bg-emerald-500/30 cursor-pointer" />
-                        <div id="imagePreviewContainer" class="hidden mt-2 flex items-center gap-2 p-2 bg-slate-950 rounded-lg border border-slate-800">
-                            <img id="imagePreview" class="w-10 h-10 object-cover rounded border border-slate-700" alt="Preview" />
-                            <div class="text-[11px] text-slate-400 truncate flex-1">
-                                <span id="imageFileName" class="text-slate-200 block font-medium truncate">image.png</span>
-                                <span>Ready for vision scanning</span>
-                            </div>
-                            <button onclick="clearImageSelection()" class="text-slate-500 hover:text-slate-300 p-1">
-                                <i data-lucide="x" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Submit Action Button -->
-                    <button id="evaluateBtn" onclick="triggerGuardrailEvaluation()" 
-                        class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="scan" class="w-4 h-4"></i>
-                        <span>Evaluate Guardrails</span>
-                    </button>
-                </div>
-
-                <!-- Right Response Panel (7 cols) -->
-                <div class="lg:col-span-7 bg-slate-950/60 rounded-xl p-4 sm:p-5 border border-slate-800 flex flex-col justify-between">
-                    <div>
-                        <!-- Header Status Bar -->
-                        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Scan Status:</span>
-                                <span id="statusBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-800 text-slate-300">
-                                    IDLE
-                                </span>
-                            </div>
-                            <div id="telemetryPill" class="text-[11px] font-mono text-slate-400 flex items-center gap-2">
-                                <span>Stage 1: <strong id="stage1Time" class="text-emerald-400">-- ms</strong></span>
-                                <span>•</span>
-                                <span>Stage 2: <strong id="stage2Time" class="text-teal-400">-- ms</strong></span>
-                            </div>
-                        </div>
-
-                        <!-- Risk Score Gauge Bar -->
-                        <div class="mt-4">
-                            <div class="flex items-center justify-between mb-1.5">
-                                <span class="text-xs font-medium text-slate-300">Composite Risk Rating</span>
-                                <span id="riskScoreValue" class="text-xs font-bold font-mono text-slate-400">0 / 100</span>
-                            </div>
-                            <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                                <div id="riskBarFill" class="h-full w-0 bg-emerald-500 transition-all duration-500"></div>
-                            </div>
-                        </div>
-
-                        <!-- Feature 3: Auto-Sanitized Output Diff Card (Right Panel, directly above the <pre> JSON block) -->
-                        <div id="remediationCard" class="mt-4 p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/40 hidden">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-                                    <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
-                                    Auto-Sanitized Production Output (Gemini 2.5 Flash)
-                                </span>
-                                <button onclick="copySanitizedText()" class="text-[11px] bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1">
-                                    <i data-lucide="copy" class="w-3 h-3"></i>
-                                    <span id="copyBtnText">Copy Safe Text</span>
-                                </button>
-                            </div>
-                            <p id="sanitizedText" class="text-xs sm:text-sm text-emerald-100 font-mono leading-relaxed bg-slate-950/60 p-3 rounded-lg border border-emerald-900/50"></p>
-                        </div>
-
-                        <!-- Detected Violations Tags -->
-                        <div class="mt-4">
-                            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1.5">Detected Violations</span>
-                            <div id="violationsContainer" class="flex flex-wrap gap-2">
-                                <span class="text-xs text-slate-500 italic">No violations evaluated yet.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Raw JSON Gateway Payload -->
-                    <div class="mt-6">
-                        <details class="group" open>
-                            <summary class="cursor-pointer text-xs text-slate-400 hover:text-slate-200 font-mono flex items-center justify-between py-2 border-t border-slate-800">
-                                <span>View Gateway Payload (JSON Output)</span>
-                                <i data-lucide="chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform"></i>
-                            </summary>
-                            <pre id="jsonResponseOutput" class="mt-2 p-3 rounded-xl bg-slate-900 text-[11px] font-mono text-slate-300 overflow-x-auto max-h-48 border border-slate-800">{ "status": "idle" }</pre>
-                        </details>
-                    </div>
-                </div>
-
-            </div>
+      <aside class="side-stack">
+        <section class="card health-card" id="analytics">
+          <div class="health-head"><h3>Guideline health</h3><span class="health-score" id="healthScoreTag">94.8%</span></div>
+          <div class="health-track"><div class="health-fill" id="healthFill"></div></div><div class="health-caption"><span>Compliance score</span><span>Target: 90%</span></div>
+          <div style="border-top:1px solid var(--line);margin-top:19px;padding-top:17px"><h3 style="font-size:13px">Recurring bottlenecks</h3><div class="sub">Most frequent sources of review friction.</div><div id="bottlenecksContainer"><div class="sub" style="margin-top:18px">Loading analytics stream...</div></div></div>
         </section>
-
-        <!-- Live Telemetry & Risk Analytics Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Telemetry Stream Chart (2 Cols) -->
-            <div class="lg:col-span-2 glass-panel p-5 rounded-2xl border-slate-800">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
-                            Real-Time Traffic & Latency Stream
-                        </h3>
-                        <p class="text-xs text-slate-400">Stage 1 Regex (ms) vs Stage 2 Gemini Flash (ms)</p>
-                    </div>
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-400">LIVE FEED</span>
-                </div>
-                <div class="h-56 relative">
-                    <canvas id="telemetryChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Violation Risk Distribution Chart (1 Col) -->
-            <div class="glass-panel p-5 rounded-2xl border-slate-800">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i data-lucide="pie-chart" class="w-4 h-4 text-teal-400"></i>
-                            Threat Breakdown
-                        </h3>
-                        <p class="text-xs text-slate-400">Distribution by violation type</p>
-                    </div>
-                </div>
-                <div class="h-56 relative flex items-center justify-center">
-                    <canvas id="distributionChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Audit Trail Table -->
-        <section class="glass-panel rounded-2xl p-5 border-slate-800">
-            <div class="flex items-center justify-between mb-4">
-                <div>
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                        <i data-lucide="list-checks" class="w-4 h-4 text-emerald-400"></i>
-                        Live Gateway Audit Log
-                    </h3>
-                    <p class="text-xs text-slate-400">Streaming evaluation records across gateway endpoints</p>
-                </div>
-                <button onclick="clearAuditLog()" class="text-xs text-slate-400 hover:text-slate-200 transition-colors">Clear Stream</button>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs font-mono">
-                    <thead class="bg-slate-900/80 text-slate-400 uppercase tracking-wider border-b border-slate-800">
-                        <tr>
-                            <th class="py-3 px-4">Timestamp</th>
-                            <th class="py-3 px-4">Action</th>
-                            <th class="py-3 px-4">Risk Score</th>
-                            <th class="py-3 px-4">Stage 1 / Stage 2</th>
-                            <th class="py-3 px-4">Flagged Directives</th>
-                        </tr>
-                    </thead>
-                    <tbody id="auditLogTableBody" class="divide-y divide-slate-800/60 text-slate-300">
-                        <!-- Populated dynamically -->
-                    </tbody>
-                </table>
-            </div>
+        <section class="card standards">
+          <h3>Governance standards</h3>
+          <div class="standard"><span class="check">✓</span>SHA-256 immutable version locking</div>
+          <div class="standard"><span class="check">✓</span>Prompt-injection isolation</div>
+          <div class="standard"><span class="check">✓</span>Multi-modal ad & logo verification</div>
+          <div class="standard"><span class="check">✓</span>Automated escalation routing</div>
         </section>
+      </aside>
+    </div>
 
-        <!-- Backend Architecture & Gateway Info -->
-        <section class="glass-panel rounded-2xl p-5 border-slate-800 bg-slate-900/30">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div class="space-y-1">
-                    <h4 class="text-sm font-bold text-white flex items-center gap-2">
-                        <i data-lucide="server" class="w-4 h-4 text-emerald-400"></i>
-                        Hybrid Deployment Architecture
-                    </h4>
-                    <p class="text-xs text-slate-400">
-                        Connected Endpoint: <code class="text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono">POST /api/review/analyze</code>
-                        — Automatic failover to inline mock engine enabled.
-                    </p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <span class="text-xs text-slate-400">Engine API Docs:</span>
-                    <a href="https://github.com/premananda108/BrandGuardAI" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-emerald-400 border border-slate-700 font-semibold transition-colors">
-                        FastAPI Spec & OpenAPI
-                    </a>
-                </div>
-            </div>
-        </section>
+    <section class="card audit" id="audit">
+      <div class="audit-head"><div><h2>Live audit trail</h2><div class="sub">Recent evaluation events and approval records.</div></div><button class="btn btn-small" id="refreshLogs">↻ Refresh logs</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Time (UTC)</th><th>Submission ID</th><th>Snippet</th><th>Risk</th><th>Status / sign-off</th><th>SHA-256 hash</th></tr></thead><tbody id="auditLogsTableBody"><tr><td colspan="6" class="empty">No audit events recorded in current session.</td></tr></tbody></table></div>
+    </section>
+    <footer class="footer"><span>© BrandGuard AI · Enterprise compliance suite v3.0</span><span><a href="https://github.com/guptakavyansh639-cloud/brandguard-ai3" target="_blank" rel="noopener">GitHub repository ↗</a> &nbsp;·&nbsp; Endpoint: POST /api/review/analyze</span></footer>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+  window.BRANDGUARD_API_BASE = https://brandguard-ai3.onrender.com ;
+</script>
+<script>
+  // LOCAL: FastAPI runs at http://127.0.0.1:8000.
+  // DEPLOYED: set window.BRANDGUARD_API_BASE to your deployed FastAPI URL
+  // BEFORE this script runs, e.g. in a small config.js file. Never put API keys here.
+  const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
+  const API_BASE = (window.BRANDGUARD_API_BASE || (IS_LOCAL ? 'http://127.0.0.1:8000' : location.origin)).replace(/\/$/, '');
+  let latestSubmissionId = null;
+  const $ = id => document.getElementById(id);
+  const setText = (id, value) => { $(id).textContent = value ?? ''; };
+  function toast(message) { const el=$('toast'); el.textContent=message; el.style.display='block'; clearTimeout(toast.timer); toast.timer=setTimeout(()=>el.style.display='none',2600); }
+  function setStatus(label, kind='') { const el=$('responseStatusBadge'); el.textContent=label; el.className='status '+kind; }
+  function loadPreset(text,rules) { $('promptInput').value=text; $('brandRulesInput').value=rules; runEvaluation(); }
+  $('cleanPreset').addEventListener('click',()=>loadPreset('Introducing our latest product update, designed to make your workflow simpler and more efficient. Learn more today.','Tone: Professional & Empathetic. Never mention rival AcmeCorp. No 100% guaranteed ROI.'));
+  $('violationPreset').addEventListener('click',()=>loadPreset('Contact me at test@company.com! AcmeCorp is garbage, we guarantee 100% ROI!','Tone: Professional.'));
+  $('submitBtn').addEventListener('click',runEvaluation);
+  $('refreshLogs').addEventListener('click',refreshAuditLogs);
+  $('copySafe').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('sanitizedText').textContent);toast('Safe rewrite copied');}catch(e){toast('Clipboard access unavailable');}});
+  $('lockVersionBtn').addEventListener('click',lockCurrentVersion);
 
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-950/80">
-        <p>BrandGuard AI Gateway • Built with FastAPI, Gemini 2.5 Flash & Tailwind CSS</p>
-    </footer>
-
-    <!-- Application Script Logic -->
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-
-        // Target API base URL with failover
-        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:8000'
-            : 'https://brandguard-ai-xk18.onrender.com';
-
-        let selectedBase64Image = null;
-        let totalEvaluated = 14289;
-        let threatsBlocked = 184;
-
-        // Preset Prompt Configurations
-        const PRESETS = {
-            pii: {
-                prompt: "Reach our lead engineer directly at alex.morgan@acmeai.com or call 415-555-0199 for an exclusive unreleased beta preview!",
-                rules: "Tone: Empathetic & Professional. Never mention rival 'AcmeAI'. Never share direct PII (emails/phone numbers)."
-            },
-            financial: {
-                prompt: "Invest in our AI automated growth strategy today and enjoy a 100% guaranteed return on investment within 30 days!",
-                rules: "Tone: Professional & Compliant. Never promise 100% guaranteed ROI. Avoid speculative claims."
-            },
-            clean: {
-                prompt: "Our enterprise AI gateway provides real-time policy evaluation and automated compliance sanitization for large language models.",
-                rules: "Tone: Empathetic & Professional. Never mention rival 'AcmeAI'. Never promise 100% guaranteed ROI."
-            }
-        };
-
-        let telemetryChart, distributionChart;
-
-        window.onload = function() {
-            initCharts();
-            populateInitialLog();
-            loadAndRunPreset('pii');
-        };
-
-        function scrollToReviewer() {
-            document.getElementById('interactiveReviewer').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function handleImageSelection(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                document.getElementById('imageFileName').innerText = file.name;
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    selectedBase64Image = e.target.result;
-                    document.getElementById('imagePreview').src = e.target.result;
-                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
-                    document.getElementById('imageSelectedBadge').classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-            } else {
-                clearImageSelection();
-            }
-        }
-
-        function clearImageSelection() {
-            selectedBase64Image = null;
-            document.getElementById('imageUpload').value = '';
-            document.getElementById('imagePreviewContainer').classList.add('hidden');
-            document.getElementById('imageSelectedBadge').classList.add('hidden');
-        }
-
-        function loadAndRunPreset(key) {
-            const preset = PRESETS[key];
-            if (preset) {
-                document.getElementById('promptInput').value = preset.prompt;
-                document.getElementById('brandRulesInput').value = preset.rules;
-                triggerGuardrailEvaluation();
-            }
-        }
-
-        async function triggerGuardrailEvaluation() {
-            const text = document.getElementById('promptInput').value.trim();
-            const brand_rules = document.getElementById('brandRulesInput').value.trim();
-            const btn = document.getElementById('evaluateBtn');
-
-            if (!text) {
-                return;
-            }
-
-            btn.disabled = true;
-            btn.classList.add('opacity-75');
-            
-            const statusBadge = document.getElementById('statusBadge');
-            statusBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30';
-            statusBadge.innerText = 'ANALYZING...';
-
-            const payload = {
-                text: text,
-                brand_rules: brand_rules,
-                image_base64: selectedBase64Image
-            };
-
-            let data;
-            const startTime = performance.now();
-
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 4000);
-
-                const response = await fetch(`${API_BASE}/api/review/analyze`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-
-                if (!response.ok) throw new Error('Live endpoint unreachable');
-                data = await response.json();
-                updateConnectionBadge(true);
-            } catch (err) {
-                updateConnectionBadge(false);
-                data = runMockEngine(payload, performance.now() - startTime);
-            }
-
-            renderScanResults(data);
-
-            btn.disabled = false;
-            btn.classList.remove('opacity-75');
-        }
-
-        function updateConnectionBadge(isLive) {
-            const badgeText = document.getElementById('connectionStatusText');
-            if (isLive) {
-                badgeText.innerText = 'FastAPI Live Engine';
-            } else {
-                badgeText.innerText = 'Mock AI Engine (Active)';
-            }
-        }
-
-        function runMockEngine(payload, elapsedMs) {
-            const textLower = payload.text.toLowerCase();
-            const rulesLower = (payload.brand_rules || '').toLowerCase();
-            const hasImage = !!payload.image_base64;
-
-            let violations = [];
-            let sanitizedText = payload.text;
-            let risk = 0;
-
-            // Check PII
-            if (textLower.includes('@') || /\d{3}[-.]?\d{3}[-.]?\d{4}/.test(textLower)) {
-                violations.push("PII_LEAK_DETECTED");
-                sanitizedText = sanitizedText.replace(/[\w\.-]+@[\w\.-]+\.\w+/, '[REDACTED_EMAIL]');
-                sanitizedText = sanitizedText.replace(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/, '[REDACTED_PHONE]');
-                risk += 45;
-            }
-
-            // Check Brand Competitor Rules
-            if (textLower.includes('acmeai') || textLower.includes('acmecorp')) {
-                violations.push("OFF_BRAND_COMPETITOR_MENTION");
-                sanitizedText = sanitizedText.replace(/acmeai|acmecorp/gi, 'our verified platform');
-                risk += 35;
-            }
-
-            // Check Financial Claims
-            if (textLower.includes('100% guaranteed') || textLower.includes('guaranteed return')) {
-                violations.push("UNSUPPORTED_FINANCIAL_CLAIM");
-                sanitizedText = sanitizedText.replace(/100% guaranteed return on investment/gi, 'competitive market value');
-                risk += 40;
-            }
-
-            if (hasImage) {
-                violations.push("MULTI_MODAL_VISUAL_AUDIT");
-                risk += 10;
-            }
-
-            risk = Math.min(Math.max(risk, violations.length ? 35 : 4), 98);
-            const status = risk > 25 ? (violations.length > 0 ? "SANITIZED" : "BLOCKED") : "APPROVED";
-
-            return {
-                risk_score: risk,
-                status: status,
-                violations: violations,
-                sanitized_rewrite: sanitizedText,
-                explanation: violations.length ? "Identified policy violations and auto-sanitized content for safe production deployment." : "Input complies fully with active brand guidelines.",
-                telemetry: {
-                    stage1_local_regex_ms: 3.4,
-                    stage2_gemini_flash_ms: Math.round(elapsedMs > 50 ? elapsedMs : 285)
-                }
-            };
-        }
-
-        function renderScanResults(data) {
-            // Metrics count update
-            totalEvaluated++;
-            document.getElementById('totalEvaluatedCount').innerText = totalEvaluated.toLocaleString();
-            if (data.violations.length > 0) {
-                threatsBlocked++;
-                document.getElementById('threatsBlockedCount').innerText = threatsBlocked.toLocaleString();
-            }
-
-            // Status Badge
-            const statusBadge = document.getElementById('statusBadge');
-            if (data.status === 'APPROVED') {
-                statusBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-                statusBadge.innerText = 'APPROVED';
-            } else if (data.status === 'SANITIZED') {
-                statusBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                statusBadge.innerText = 'AUTO-SANITIZED';
-            } else {
-                statusBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30';
-                statusBadge.innerText = 'BLOCKED';
-            }
-
-            // Stage Telemetry Times
-            document.getElementById('stage1Time').innerText = `${data.telemetry.stage1_local_regex_ms} ms`;
-            document.getElementById('stage2Time').innerText = `${data.telemetry.stage2_gemini_flash_ms} ms`;
-
-            // Risk Meter Bar
-            const riskVal = document.getElementById('riskScoreValue');
-            const riskBar = document.getElementById('riskBarFill');
-            riskVal.innerText = `${data.risk_score} / 100`;
-            riskBar.style.width = `${data.risk_score}%`;
-
-            if (data.risk_score > 70) {
-                riskBar.className = 'h-full bg-rose-500 transition-all duration-500';
-                riskVal.className = 'text-xs font-bold font-mono text-rose-400';
-            } else if (data.risk_score > 25) {
-                riskBar.className = 'h-full bg-amber-500 transition-all duration-500';
-                riskVal.className = 'text-xs font-bold font-mono text-amber-400';
-            } else {
-                riskBar.className = 'h-full bg-emerald-500 transition-all duration-500';
-                riskVal.className = 'text-xs font-bold font-mono text-emerald-400';
-            }
-
-            // Auto-Sanitized Remediation Card
-            const remediationCard = document.getElementById('remediationCard');
-            const sanitizedText = document.getElementById('sanitizedText');
-            if (data.sanitized_rewrite) {
-                sanitizedText.innerText = data.sanitized_rewrite;
-                remediationCard.classList.remove('hidden');
-            } else {
-                remediationCard.classList.add('hidden');
-            }
-
-            // Violations Tags
-            const violationsContainer = document.getElementById('violationsContainer');
-            if (data.violations.length > 0) {
-                violationsContainer.innerHTML = data.violations.map(v => 
-                    `<span class="px-2.5 py-1 rounded-lg text-xs font-mono font-medium bg-amber-500/10 text-amber-300 border border-amber-500/20 flex items-center gap-1">
-                        ⚠️ ${v}
-                    </span>`
-                ).join('');
-            } else {
-                violationsContainer.innerHTML = `<span class="px-2.5 py-1 rounded-lg text-xs font-mono font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                    ✅ ZERO_VIOLATIONS_DETECTED
-                </span>`;
-            }
-
-            // Pretty JSON output
-            document.getElementById('jsonResponseOutput').textContent = JSON.stringify(data, null, 2);
-
-            // Append to Audit Table
-            addAuditLogRow(data);
-
-            // Push Telemetry Chart Data
-            updateCharts(data);
-        }
-
-        function copySanitizedText() {
-            const text = document.getElementById('sanitizedText').innerText;
-            document.execCommand('copy');
-            const copyBtnText = document.getElementById('copyBtnText');
-            copyBtnText.innerText = 'Copied!';
-            setTimeout(() => { copyBtnText.innerText = 'Copy Safe Text'; }, 2000);
-        }
-
-        function addAuditLogRow(data) {
-            const tbody = document.getElementById('auditLogTableBody');
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-slate-900/50 transition-colors';
-
-            const time = new Date().toLocaleTimeString();
-            const actionColor = data.status === 'APPROVED' ? 'text-emerald-400' : (data.status === 'SANITIZED' ? 'text-amber-400' : 'text-rose-400');
-            const violationsText = data.violations.length ? data.violations.join(', ') : 'None';
-
-            tr.innerHTML = `
-                <td class="py-3 px-4 text-slate-400">${time}</td>
-                <td class="py-3 px-4 font-bold ${actionColor}">${data.status}</td>
-                <td class="py-3 px-4 font-bold text-slate-200">${data.risk_score}</td>
-                <td class="py-3 px-4 text-slate-400">${data.telemetry.stage1_local_regex_ms}ms / ${data.telemetry.stage2_gemini_flash_ms}ms</td>
-                <td class="py-3 px-4 text-slate-300 truncate max-w-xs">${violationsText}</td>
-            `;
-
-            tbody.insertBefore(tr, tbody.firstChild);
-
-            if (tbody.children.length > 10) {
-                tbody.removeChild(tbody.lastChild);
-            }
-        }
-
-        function clearAuditLog() {
-            document.getElementById('auditLogTableBody').innerHTML = '';
-        }
-
-        function populateInitialLog() {
-            const sampleLogs = [
-                { time: '20:04:12', status: 'SANITIZED', risk: 45, t1: '3.1ms', t2: '294ms', issues: 'PII_LEAK_DETECTED' },
-                { time: '20:03:45', status: 'APPROVED', risk: 4, t1: '2.8ms', t2: '272ms', issues: 'None' },
-                { time: '20:01:10', status: 'BLOCKED', risk: 85, t1: '3.5ms', t2: '310ms', issues: 'OFF_BRAND_COMPETITOR_MENTION' }
-            ];
-
-            const tbody = document.getElementById('auditLogTableBody');
-            tbody.innerHTML = sampleLogs.map(log => `
-                <tr class="hover:bg-slate-900/50 transition-colors">
-                    <td class="py-3 px-4 text-slate-400">${log.time}</td>
-                    <td class="py-3 px-4 font-bold ${log.status === 'APPROVED' ? 'text-emerald-400' : (log.status === 'SANITIZED' ? 'text-amber-400' : 'text-rose-400')}">${log.status}</td>
-                    <td class="py-3 px-4 font-bold text-slate-200">${log.risk}</td>
-                    <td class="py-3 px-4 text-slate-400">${log.t1} / ${log.t2}</td>
-                    <td class="py-3 px-4 text-slate-300 truncate max-w-xs">${log.issues}</td>
-                </tr>
-            `).join('');
-        }
-
-        function initCharts() {
-            // Telemetry Stream Line Chart
-            const ctx1 = document.getElementById('telemetryChart').getContext('2d');
-            telemetryChart = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['10m ago', '8m ago', '6m ago', '4m ago', '2m ago', 'Now'],
-                    datasets: [
-                        {
-                            label: 'Stage 2: Gemini 2.5 Flash (ms)',
-                            data: [280, 295, 310, 275, 290, 285],
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderWidth: 2,
-                            tension: 0.3,
-                            fill: true
-                        },
-                        {
-                            label: 'Stage 1: Local Regex (ms)',
-                            data: [3.2, 3.5, 4.1, 2.9, 3.8, 3.4],
-                            borderColor: '#14b8a6',
-                            borderWidth: 1.5,
-                            borderDash: [4, 4],
-                            tension: 0.1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } } }
-                    },
-                    scales: {
-                        x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(51, 65, 85, 0.3)' } },
-                        y: { ticks: { color: '#64748b' }, grid: { color: 'rgba(51, 65, 85, 0.3)' } }
-                    }
-                }
-            });
-
-            // Threat Distribution Doughnut Chart
-            const ctx2 = document.getElementById('distributionChart').getContext('2d');
-            distributionChart = new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['PII Leaks', 'Competitor Mentions', 'Financial Claims', 'Multi-Modal/Vision'],
-                    datasets: [{
-                        data: [42, 28, 18, 12],
-                        backgroundColor: ['#f59e0b', '#10b981', '#f43f5e', '#14b8a6'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Inter', size: 10 } } }
-                    }
-                }
-            });
-        }
-
-        function updateCharts(data) {
-            if (!telemetryChart) return;
-            const labels = telemetryChart.data.labels;
-            labels.shift();
-            labels.push(new Date().toLocaleTimeString().slice(0, 5));
-
-            telemetryChart.data.datasets[0].data.shift();
-            telemetryChart.data.datasets[0].data.push(data.telemetry.stage2_gemini_flash_ms);
-
-            telemetryChart.data.datasets[1].data.shift();
-            telemetryChart.data.datasets[1].data.push(data.telemetry.stage1_local_regex_ms);
-
-            telemetryChart.update();
-        }
-    </script>
+  async function fileToBase64(file) {
+    return new Promise((resolve,reject)=>{const reader=new FileReader();reader.readAsDataURL(file);reader.onload=()=>resolve(reader.result);reader.onerror=reject;});
+  }
+  async function runEvaluation() {
+    const btn=$('submitBtn'); btn.disabled=true; btn.textContent='Analyzing pipeline…'; setStatus('Processing','warn');
+    try {
+      let imageBase64=null; const file=$('imageUpload').files?.[0];
+      if(file) {
+        if(file.type !== 'image/jpeg') throw new Error('Please upload a JPEG image. The current backend expects image/jpeg.');
+        if(file.size > 5 * 1024 * 1024) throw new Error('Image must be 5 MB or smaller.');
+        imageBase64=await fileToBase64(file);
+      }
+      const payload={text:$('promptInput').value,brand_rules:$('brandRulesInput').value,image_base64:imageBase64,modules:['pii','toxicity','brand','injection','copyright']};
+      const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),15000);
+      let response; try { response=await fetch(`${API_BASE}/api/review/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal}); } finally { clearTimeout(timeout); }
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data=await response.json(); latestSubmissionId=data.submission_id; setText('rawJsonResponse',JSON.stringify(data,null,2));
+      const status=String(data.status||'REVIEWED').toUpperCase(); setStatus(`${status} · Risk ${data.risk_score ?? '—'}/100`,status==='BLOCKED'?'bad':status==='FLAGGED'?'warn':'good');
+      const sandbox=data.prompt_injection_sandbox||{};
+      setText('sandboxBadge',sandbox.injection_detected?`Sandbox: Threat detected (${(sandbox.threat_vectors||[])[0]||'review'})`:'Sandbox: Clean isolation');
+      setText('escalationBadge',data.escalation_matrix?.escalated?`Escalated: ${data.escalation_matrix.target_queue||'Review queue'}`:`Routing: Auto-review · ${data.confidence_score ?? '—'}% confidence`);
+      $('remediationCard').classList.toggle('hidden',!data.sanitized_rewrite); setText('sanitizedText',data.sanitized_rewrite||'');
+      if(data.version_lock_audit?.sha256_immutable_hash){setText('versionHashDisplay',data.version_lock_audit.sha256_immutable_hash);$('signOffPanel').classList.remove('hidden');}
+      await Promise.all([refreshAuditLogs(),refreshAnalytics()]); toast('Analysis completed');
+    } catch(err) {
+      console.warn('Analysis request failed:',err); setStatus('API unavailable','bad');
+      setText('rawJsonResponse',JSON.stringify({error:err.message||'Backend unavailable',fallback_active:false,api_base:API_BASE},null,2));
+      setText('sandboxBadge','Sandbox: Not verified'); setText('escalationBadge','Routing: Not verified');
+      toast('Could not reach the review API');
+    } finally { btn.disabled=false; btn.textContent='Run guardrail analysis  →'; }
+  }
+  async function lockCurrentVersion() {
+    if(!latestSubmissionId){toast('Run an analysis before signing off');return;}
+    const btn=$('lockVersionBtn'); const original=btn.textContent; btn.disabled=true; btn.textContent='Signing…';
+    try {
+      const res=await fetch(`${API_BASE}/api/review/sign-off`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({submission_id:latestSubmissionId,approver_role:$('approverRole').value,approver_name:'Lead Reviewer',decision:'APPROVED_VERSION_LOCKED'})});
+      if(!res.ok) throw new Error(`HTTP ${res.status}`); const data=await res.json();
+      if(!data.immutable_lock_hash) throw new Error('No lock hash returned');
+      btn.textContent=`Locked · ${data.immutable_lock_hash.slice(0,8)}`; btn.style.background='linear-gradient(135deg,#71e6b9,#3dd6a0)'; toast('Version signed off'); await refreshAuditLogs();
+    } catch(e){btn.textContent='Sign-off failed';toast('Sign-off request failed');}
+    finally{btn.disabled=false;if(btn.textContent==='Signing…')btn.textContent=original;}
+  }
+  async function refreshAnalytics() {
+    try {
+      const res=await fetch(`${API_BASE}/api/review/analytics`); if(!res.ok) throw new Error('Analytics unavailable'); const data=await res.json();
+      const score=data.guideline_health_score??'—'; setText('metricHealthScore',score); setText('healthScoreTag',score); 
+      const numeric=parseFloat(String(score).replace('%','')); if(Number.isFinite(numeric)) $('healthFill').style.width=`${Math.max(0,Math.min(100,numeric))}%`;
+      const container=$('bottlenecksContainer'); container.replaceChildren();
+      (data.top_team_bottlenecks||[]).forEach(item=>{
+        const wrap=document.createElement('div');wrap.className='bottleneck';
+        const line=document.createElement('div');line.className='bottleneck-line';
+        const name=document.createElement('span');name.textContent=item.bottleneck??'Other';
+        const count=document.createElement('span');count.textContent=`${item.share_pct??0}% · ${item.incidents??0}`;
+        line.append(name,count);const bar=document.createElement('div');bar.className='bar';const fill=document.createElement('span');fill.style.width=`${Math.max(0,Math.min(100,Number(item.share_pct)||0))}%`;bar.append(fill);wrap.append(line,bar);container.append(wrap);
+      });
+      if(!container.children.length) container.textContent='No bottleneck data available.';
+    } catch(e){console.warn('Analytics endpoint unavailable',e);setText('bottlenecksContainer','Analytics currently unavailable.');}
+  }
+  async function refreshAuditLogs() {
+    try {
+      const res=await fetch(`${API_BASE}/api/review/logs`);if(!res.ok)throw new Error('Logs unavailable');const data=await res.json();const tbody=$('auditLogsTableBody');tbody.replaceChildren();
+      if(!Array.isArray(data.logs)||!data.logs.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=6;td.className='empty';td.textContent='No audit events recorded.';tr.append(td);tbody.append(tr);return;}
+      data.logs.forEach(log=>{
+        const tr=document.createElement('tr');const values=[log.time,log.submission_id,log.text_snippet,`${log.risk_score}/100`,log.sign_off_status||log.action,log.sha256_version_hash||'—'];
+        values.forEach((value,index)=>{const td=document.createElement('td');td.textContent=value??'—';if(index===3){td.className='risk '+(Number(log.risk_score)>70?'risk-high':Number(log.risk_score)>30?'risk-mid':'risk-low');}tr.append(td);});tbody.append(tr);
+      });
+    } catch(e){console.warn('Logs endpoint unavailable',e);}
+  }
+  async function checkBackendHealth() {
+    try {
+      const response = await fetch(`${API_BASE}/health`, {signal: AbortSignal.timeout(6000)});
+      if (!response.ok) throw new Error(`Health check returned HTTP ${response.status}`);
+      const health = await response.json();
+      const gemini = health.gemini_active === true;
+      setText('systemStatusText', gemini ? 'Backend + Gemini online' : 'Backend online · Gemini inactive');
+      setText('pipelineStatusText', gemini ? 'Pipeline connected' : 'API connected · Gemini inactive');
+      $('systemDot').style.background = gemini ? 'var(--green)' : 'var(--amber)';
+      $('pipelineDot').style.background = gemini ? 'var(--green)' : 'var(--amber)';
+      $('systemDot').style.boxShadow = gemini ? '0 0 12px #3dd6a0' : '0 0 12px #f4bd62';
+      $('pipelineDot').style.boxShadow = gemini ? '0 0 12px #3dd6a0' : '0 0 12px #f4bd62';
+    } catch (error) {
+      setText('systemStatusText', 'Backend unavailable');
+      setText('pipelineStatusText', 'API disconnected');
+      $('systemDot').style.background = 'var(--red)';
+      $('pipelineDot').style.background = 'var(--red)';
+      $('systemDot').style.boxShadow = 'none';
+      $('pipelineDot').style.boxShadow = 'none';
+    }
+  }
+  document.addEventListener('DOMContentLoaded',()=>{checkBackendHealth();refreshAnalytics();refreshAuditLogs();});
+</script>
 </body>
 </html>
