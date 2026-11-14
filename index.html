@@ -20,6 +20,26 @@
     .side-stack{display:grid;gap:15px}.health-card{padding:20px}.health-head{display:flex;justify-content:space-between;align-items:center}.health-score{font:700 24px 'Space Grotesk';color:var(--green)}.health-track{height:7px;background:#263248;border-radius:10px;overflow:hidden;margin:14px 0 8px}.health-fill{height:100%;width:94.8%;background:linear-gradient(90deg,#3dd6a0,#4bd7d0);border-radius:10px}.health-caption{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.bottleneck{margin-top:17px}.bottleneck-line{display:flex;justify-content:space-between;color:#cbd5e5;font-size:11px;margin-bottom:7px;gap:10px}.bottleneck-line span:last-child{color:var(--muted);font:10px ui-monospace,monospace}.bar{height:5px;border-radius:10px;background:#263248;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,#7788ff,#4bd7d0);border-radius:10px}.standards{padding:20px}.standard{display:flex;align-items:center;gap:10px;color:#b6c2d4;font-size:11px;padding:10px 0;border-bottom:1px solid #1b2638}.standard:last-child{border:0;padding-bottom:0}.check{width:19px;height:19px;border-radius:6px;background:#103329;color:#6de2b5;display:grid;place-items:center;font-size:11px;flex-shrink:0}
     .audit{margin-top:20px;padding:21px}.audit-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px;text-align:left}th{font-size:9px;color:#7f8ca2;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:11px 10px;border-bottom:1px solid var(--line)}td{font:10px ui-monospace,monospace;color:#b9c5d7;padding:13px 10px;border-bottom:1px solid #1b2638}tbody tr:hover{background:#ffffff05}.empty{text-align:center;color:#718097;padding:25px;font:11px 'DM Sans'}.risk{font-weight:700}.risk-high{color:var(--red)}.risk-mid{color:var(--amber)}.risk-low{color:var(--green)}.footer{display:flex;justify-content:space-between;gap:12px;color:#65738a;font-size:10px;margin-top:25px;padding:0 3px}.footer a{color:#9ba9c0;text-decoration:none}
     .hidden{display:none!important}.toast{position:fixed;right:22px;bottom:22px;background:#17243a;border:1px solid #354664;color:#e8efff;border-radius:11px;padding:12px 16px;font-size:12px;box-shadow:0 15px 40px #0008;z-index:20;display:none}
+
+    /* Added interaction enhancements; original visual system remains intact. */
+    .file-input-hidden{position:absolute!important;width:1px!important;height:1px!important;opacity:0;overflow:hidden;clip:rect(0,0,0,0)}
+    .file-picker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-width:0;padding:10px 12px;border:1px dashed #34425b;border-radius:11px;background:#0b1220;transition:border-color .2s,background .2s}
+    .file-picker.drag-over{border-color:var(--cyan);background:#10202a;box-shadow:0 0 0 3px #4bd7d018}
+    .upload-button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:9px;background:linear-gradient(135deg,#aab5ff,#7c8cff);color:#08101e;font-size:11px;font-weight:700;cursor:pointer}
+    .upload-button small{display:block;color:#26345e;font-size:9px;font-weight:500;margin-top:2px}
+    .file-name{font-size:10px;color:#aab6c8;overflow-wrap:anywhere;max-width:220px}
+    .image-preview{display:none;width:74px;height:58px;object-fit:cover;border:1px solid #34425a;border-radius:8px}
+    .image-preview.visible{display:block}
+    .scan-progress{display:none;margin:16px 0 2px;padding:13px 14px;border:1px solid #303d59;border-radius:11px;background:#0b1423}
+    .scan-progress.visible{display:block}
+    .scan-progress-head{display:flex;justify-content:space-between;gap:10px;color:#dce5f8;font-size:11px}
+    .scan-progress-head span{color:var(--cyan);font-variant-numeric:tabular-nums}
+    .scan-track{height:6px;background:#263248;border-radius:99px;overflow:hidden;margin:10px 0}
+    .scan-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,#7c8cff,#4bd7d0);border-radius:99px;transition:width .35s ease}
+    .scan-note{color:var(--muted);font-size:10px;margin:0}
+    .metric-demo-note{font-size:9px;color:#718097;margin-top:4px}
+    @media(max-width:900px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.work-grid{grid-template-columns:1fr}}
+    @media(max-width:560px){.metrics{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.sidebar{width:72px;padding:18px 8px}.brand strong,.brand small,.nav-label,.nav a:not(.active),.system-card small{display:none}.nav a{justify-content:center;font-size:0}.nav-icon{font-size:16px}.main{padding:18px 12px 28px}.panel{padding:15px}}
   </style>
 </head>
 <body>
@@ -51,7 +71,7 @@
     </section>
 
     <section class="grid metrics">
-      <div class="card metric"><div class="metric-head">Total evaluated <span class="metric-icon">⌁</span></div><div class="metric-value">14,289</div><div class="metric-foot"><span class="positive">↗ 14.2%</span> audit volume</div></div>
+      <div class="card metric"><div class="metric-head">Total evaluated <span class="metric-icon">⌁</span></div><div class="metric-value">14,289</div><div class="metric-foot"><span class="positive">↗ 14.2%</span> sample audit volume</div></div>
       <div class="card metric"><div class="metric-head">Threats neutralized <span class="metric-icon">⬡</span></div><div class="metric-value">184</div><div class="metric-foot">1.28% violation rate</div></div>
       <div class="card metric"><div class="metric-head">Pipeline latency <span class="metric-icon">◷</span></div><div class="metric-value">12<span style="font-size:14px;color:#8492a8">ms</span> / 180<span style="font-size:14px;color:#8492a8">ms</span></div><div class="metric-foot">Regex screening · Gemini 3.5 review</div></div>
       <div class="card metric"><div class="metric-head">Guideline health <span class="metric-icon">✓</span></div><div class="metric-value" id="metricHealthScore" style="color:var(--green)">94.8%</div><div class="metric-foot">Zero unverified publishes</div></div>
@@ -63,7 +83,8 @@
         <div class="preset-row" style="margin-bottom:18px"><button class="btn btn-small" id="cleanPreset">✦ Clean copy preset</button><button class="btn btn-small" id="violationPreset">⚑ PII & Competitor violation</button><button class="btn btn-small" id="injectionPreset">⚡ Prompt-injection attack</button></div>
         <div class="field"><label for="brandRulesInput">Brand guidelines & competitor rules</label><input id="brandRulesInput" type="text" value="Tone: Professional & Empathetic. Never mention rival AcmeCorp. No 100% guaranteed financial returns." /></div>
         <div class="field"><label for="promptInput">Submission text payload</label><textarea id="promptInput" placeholder="Enter ad copy, prompt response, or marketing draft...">Excited to announce our new partnership! Reach our founder at ceo@brandguard.ai or call 555-0199. Unlike AcmeCorp, we offer 100% guaranteed financial returns on day one!</textarea></div>
-        <div class="form-bottom"><div><label class="upload-label" for="imageUpload">＋ Attach image for multi-modal ad scan</label><input id="imageUpload" type="file" accept="image/jpeg" style="display:block;max-width:240px;margin-top:7px" /><small style="display:block;color:var(--muted);font-size:10px;margin-top:5px">JPEG only · up to 5 MB</small></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
+        <div class="form-bottom"><div class="file-picker" id="imageDropZone"><input id="imageUpload" class="file-input-hidden" type="file" accept="image/jpeg,.jpg,.jpeg" /><label class="upload-button" for="imageUpload">＋ Choose image<small>Attach for multi-modal ad scan · JPEG up to 5 MB</small></label><span class="file-name" id="imageFileName" aria-live="polite">No image selected</span><img id="imagePreview" class="image-preview" alt="Selected image preview" /></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
+        <div class="scan-progress" id="scanProgress" aria-live="polite"><div class="scan-progress-head"><strong id="scanStageTitle">Preparing review</strong><span id="scanPercent">0%</span></div><div class="scan-track"><span id="scanProgressFill"></span></div><p class="scan-note" id="scanNote">Submitting content to the governance pipeline.</p></div>
 
         <div class="result">
           <div class="result-top"><div class="section-label">Live inspection response</div><span id="responseStatusBadge" class="status">Idle</span></div>
@@ -102,7 +123,8 @@
   window.BRANDGUARD_API_BASE = "https://brandguard-ai3.onrender.com";
 </script>
 <script>
-  const API_BASE = (window.BRANDGUARD_API_BASE || location.origin).replace(/\/$/, '');
+  const IS_LOCAL = ['localhost','127.0.0.1'].includes(location.hostname);
+  const API_BASE = (window.BRANDGUARD_API_BASE || (IS_LOCAL ? 'http://127.0.0.1:8000' : 'https://brandguard-ai3.onrender.com')).replace(/\/$/, '');
   let latestSubmissionId = null;
   const $ = id => document.getElementById(id);
   const setText = (id, value) => { $(id).textContent = value ?? ''; };
@@ -123,50 +145,73 @@
     return new Promise((resolve,reject)=>{const reader=new FileReader();reader.readAsDataURL(file);reader.onload=()=>resolve(reader.result);reader.onerror=reject;});
   }
 
+  let previewUrl = null;
+  function handleImageSelection(file) {
+    if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+    const preview=$('imagePreview'); preview.classList.remove('visible'); preview.removeAttribute('src');
+    if (!file) { setText('imageFileName','No image selected'); return; }
+    if (file.type !== 'image/jpeg' || !/\.jpe?g$/i.test(file.name)) {
+      toast('Please choose a JPEG image.'); $('imageUpload').value=''; setText('imageFileName','No image selected'); return;
+    }
+    if (file.size > 5*1024*1024) {
+      toast('Image must be 5 MB or smaller.'); $('imageUpload').value=''; setText('imageFileName','No image selected'); return;
+    }
+    setText('imageFileName',`${file.name} · ${(file.size/1024/1024).toFixed(2)} MB`);
+    previewUrl=URL.createObjectURL(file); preview.src=previewUrl; preview.classList.add('visible');
+  }
+  const imageDropZone=$('imageDropZone');
+  imageDropZone.addEventListener('dragover',event=>{event.preventDefault();imageDropZone.classList.add('drag-over');});
+  imageDropZone.addEventListener('dragleave',()=>imageDropZone.classList.remove('drag-over'));
+  imageDropZone.addEventListener('drop',event=>{
+    event.preventDefault(); imageDropZone.classList.remove('drag-over');
+    const file=event.dataTransfer.files?.[0]; if(!file)return;
+    const transfer=new DataTransfer(); transfer.items.add(file); $('imageUpload').files=transfer.files; handleImageSelection(file);
+  });
+  $('imageUpload').addEventListener('change',event=>handleImageSelection(event.target.files?.[0]));
+  function updateScanProgress(percent,title,note) {
+    $('scanProgress').classList.add('visible'); $('scanProgressFill').style.width=`${percent}%`;
+    setText('scanPercent',`${percent}%`); setText('scanStageTitle',title); setText('scanNote',note);
+  }
+
   async function runEvaluation() {
-    const btn=$('submitBtn'); btn.disabled=true; btn.textContent='Analyzing pipeline…'; setStatus('Processing','warn');
+    const btn=$('submitBtn');
+    if(btn.disabled) return;
+    btn.disabled=true; btn.textContent='Analyzing pipeline…'; setStatus('Processing','warn');
+    $('remediationCard').classList.add('hidden'); $('signOffPanel').classList.add('hidden');
+    updateScanProgress(12,'Preparing submission','Validating text payload and selected image.');
     try {
       let imageBase64=null; const file=$('imageUpload').files?.[0];
       if(file) {
-        if(file.type !== 'image/jpeg') throw new Error('Please upload a JPEG image.');
-        if(file.size > 5 * 1024 * 1024) throw new Error('Image must be 5 MB or smaller.');
+        if(file.type!=='image/jpeg' || file.size>5*1024*1024) throw new Error('Choose a JPEG image up to 5 MB.');
         imageBase64=await fileToBase64(file);
       }
+      updateScanProgress(32,'Connecting to review API','Sending content to the configured FastAPI backend.');
       const payload={text:$('promptInput').value,brand_rules:$('brandRulesInput').value,image_base64:imageBase64,modules:['pii','toxicity','brand','injection','copyright']};
-      const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),15000);
-      let response; try { response=await fetch(`${API_BASE}/api/review/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal}); } finally { clearTimeout(timeout); }
-      if(!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data=await response.json(); latestSubmissionId=data.submission_id; setText('rawJsonResponse',JSON.stringify(data,null,2));
-      const status=String(data.status||'REVIEWED').toUpperCase(); setStatus(`${status} · Risk ${data.risk_score ?? '—'}/100`,status==='BLOCKED'?'bad':status==='FLAGGED'?'warn':'good');
+      const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),30000);
+      let response;
+      try { response=await fetch(`${API_BASE}/api/review/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal}); }
+      finally { clearTimeout(timeout); }
+      updateScanProgress(76,'Evaluating guardrails','Processing the response from the governance pipeline.');
+      if(!response.ok) throw new Error(`Review API returned HTTP ${response.status}`);
+      const data=await response.json(); latestSubmissionId=data.submission_id||null;
+      setText('rawJsonResponse',JSON.stringify(data,null,2));
+      const status=String(data.status||'REVIEWED').toUpperCase();
+      setStatus(`${status} · Risk ${data.risk_score ?? '—'}/100`,status==='BLOCKED'?'bad':status==='FLAGGED'?'warn':'good');
       const sandbox=data.prompt_injection_sandbox||{};
       setText('sandboxBadge',sandbox.injection_detected?`Sandbox: Threat detected (${(sandbox.threat_vectors||[])[0]||'review'})`:'Sandbox: Clean isolation');
       setText('escalationBadge',data.escalation_matrix?.escalated?`Escalated: ${data.escalation_matrix.target_queue||'Review queue'}`:`Routing: Auto-review · ${data.confidence_score ?? '—'}% confidence`);
       $('remediationCard').classList.toggle('hidden',!data.sanitized_rewrite); setText('sanitizedText',data.sanitized_rewrite||'');
       if(data.version_lock_audit?.sha256_immutable_hash){setText('versionHashDisplay',data.version_lock_audit.sha256_immutable_hash);$('signOffPanel').classList.remove('hidden');}
+      updateScanProgress(100,'Review complete','The backend returned an analysis result.');
       await Promise.all([refreshAuditLogs(),refreshAnalytics()]); toast('Analysis completed');
     } catch(err) {
-      console.warn('API connection slow, engaging offline fallback guardrail:', err);
-      const fallbackText = $('promptInput').value;
-      const isInjection = fallbackText.toLowerCase().includes('ignore');
-      const mockRisk = isInjection ? 95 : fallbackText.includes('@') ? 70 : 15;
-      
-      setStatus(isInjection ? 'BLOCKED · Risk 95/100' : 'AUTO-SANITIZED · Risk 65/100', isInjection ? 'bad' : 'warn');
-      setText('sandboxBadge', isInjection ? 'Sandbox: Threat Vector Neutralized' : 'Sandbox: Clean isolation');
-      setText('escalationBadge', 'Routing: Auto-Escalated to Legal Triage (P1)');
-      
-      $('remediationCard').classList.remove('hidden');
-      setText('sanitizedText', isInjection ? '[SECURITY BLOCK: Unauthorized system probe neutralized in sandbox]' : fallbackText.replace(/[\w\.-]+@[\w\.-]+\.\w+/, '[REDACTED_EMAIL]').replace(/AcmeCorp/gi, '[COMPETITOR_OMITTED]'));
-      setText('versionHashDisplay', 'a1b2c3d4e5f67890 (Offline Immutable Seal)');
-      $('signOffPanel').classList.remove('hidden');
-      
-      setText('rawJsonResponse', JSON.stringify({
-        status: isInjection ? "BLOCKED" : "FLAGGED",
-        risk_score: mockRisk,
-        confidence_score: 89,
-        note: "Fallback deterministic rule-engine engaged due to network timeout.",
-        sanitized_rewrite: $('sanitizedText').textContent
-      }, null, 2));
-      toast('Engagement guardrail enforced (Offline Fallback Mode)');
+      console.error('BrandGuard analysis failed:',err);
+      const message=err.name==='AbortError'?'The review request timed out. Please try again.':(err.message||'Unable to reach the review API.');
+      setStatus('API ERROR · No verified result','bad');
+      setText('sandboxBadge','Sandbox: Result unavailable'); setText('escalationBadge','Routing: Awaiting backend response');
+      setText('rawJsonResponse',JSON.stringify({error:message,api_base:API_BASE,verified_analysis:false},null,2));
+      $('remediationCard').classList.add('hidden'); $('signOffPanel').classList.add('hidden');
+      updateScanProgress(0,'Review not completed',message); toast(message);
     } finally { btn.disabled=false; btn.textContent='Run guardrail analysis  →'; }
   }
 
@@ -251,9 +296,9 @@
       setText('pipelineStatusText', 'Pipeline connected');
       $('systemDot').style.background = 'var(--green)'; $('pipelineDot').style.background = 'var(--green)';
     } catch (error) {
-      setText('systemStatusText', 'Gateway operational (Fallback active)');
-      setText('pipelineStatusText', 'Enterprise Edge Active');
-      $('systemDot').style.background = 'var(--green)'; $('pipelineDot').style.background = 'var(--green)';
+      setText('systemStatusText', 'Backend unavailable');
+      setText('pipelineStatusText', 'Check API connection');
+      $('systemDot').style.background = 'var(--red)'; $('pipelineDot').style.background = 'var(--red)';
     }
   }
   document.addEventListener('DOMContentLoaded',()=>{checkBackendHealth();refreshAnalytics();refreshAuditLogs();});
