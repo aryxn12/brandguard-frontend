@@ -430,7 +430,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
     if (!text && !file) { notify('Enter text or attach an image before reviewing.'); return; }
     if (text.length > 12000) { notify('Please keep the submission under 12,000 characters.'); return; }
     if (file && (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024)) { notify('Choose a JPEG image no larger than 5 MB.'); return; }
-    currentText = text; latestSubmissionId = null; latestAnalysis = null; currentHash = ''; currentStatus = '';
+    currentText = text; latestSubmissionId = null; let latestAnalysis = null; currentHash = ''; currentStatus = '';
     button.disabled = true; button.textContent = 'Analyzing pipeline…'; el('analysisProgress')?.classList.add('show');
     txt('progressMessage', 'Sending content to the BrandGuard review API…');
     ['signOffPanel','explainCard','remediationCard','rewriteCompare'].forEach(id => el(id)?.classList.add('hidden'));
