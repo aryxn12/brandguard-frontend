@@ -20,6 +20,21 @@
     .side-stack{display:grid;gap:15px}.health-card{padding:20px}.health-head{display:flex;justify-content:space-between;align-items:center}.health-score{font:700 24px 'Space Grotesk';color:var(--green)}.health-track{height:7px;background:#263248;border-radius:10px;overflow:hidden;margin:14px 0 8px}.health-fill{height:100%;width:94.8%;background:linear-gradient(90deg,#3dd6a0,#4bd7d0);border-radius:10px}.health-caption{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.bottleneck{margin-top:17px}.bottleneck-line{display:flex;justify-content:space-between;color:#cbd5e5;font-size:11px;margin-bottom:7px;gap:10px}.bottleneck-line span:last-child{color:var(--muted);font:10px ui-monospace,monospace}.bar{height:5px;border-radius:10px;background:#263248;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,#7788ff,#4bd7d0);border-radius:10px}.standards{padding:20px}.standard{display:flex;align-items:center;gap:10px;color:#b6c2d4;font-size:11px;padding:10px 0;border-bottom:1px solid #1b2638}.standard:last-child{border:0;padding-bottom:0}.check{width:19px;height:19px;border-radius:6px;background:#103329;color:#6de2b5;display:grid;place-items:center;font-size:11px;flex-shrink:0}
     .audit{margin-top:20px;padding:21px}.audit-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px;text-align:left}th{font-size:9px;color:#7f8ca2;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:11px 10px;border-bottom:1px solid var(--line)}td{font:10px ui-monospace,monospace;color:#b9c5d7;padding:13px 10px;border-bottom:1px solid #1b2638}tbody tr:hover{background:#ffffff05}.empty{text-align:center;color:#718097;padding:25px;font:11px 'DM Sans'}.risk{font-weight:700}.risk-high{color:var(--red)}.risk-mid{color:var(--amber)}.risk-low{color:var(--green)}.footer{display:flex;justify-content:space-between;gap:12px;color:#65738a;font-size:10px;margin-top:25px;padding:0 3px}.footer a{color:#9ba9c0;text-decoration:none}
     .hidden{display:none!important}.toast{position:fixed;right:22px;bottom:22px;background:#17243a;border:1px solid #354664;color:#e8efff;border-radius:11px;padding:12px 16px;font-size:12px;box-shadow:0 15px 40px #0008;z-index:20;display:none}
+
+    /* Additive usability, accessibility and responsive refinements */
+    .field-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px;margin-top:7px}
+    .rewrite-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+    .rewrite-compare>div{min-width:0;background:#0a101b;border:1px solid var(--line);border-radius:11px;padding:13px}
+    .rewrite-compare small{color:#9eacc2;font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+    .rewrite-compare p{font:11px/1.7 ui-monospace,monospace;color:#d5deee;white-space:pre-wrap;overflow-wrap:anywhere;margin:9px 0 0}
+    .audit-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .audit-tools input,.audit-tools select{background:#090f1b;border:1px solid #263248;border-radius:8px;color:#eaf0ff;padding:8px 10px;font-size:10px;min-width:130px}
+    .chart-wrap{margin-top:20px}.chart-title{font-size:11px;color:#cbd5e5;margin-bottom:8px}#riskChart{width:100%;height:auto;max-height:190px;display:block}
+    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+    .hidden{display:none!important}
+    @media(max-width:1050px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.work-grid{grid-template-columns:1fr}.sidebar{width:210px}}
+    @media(max-width:700px){.app{display:block}.sidebar{position:relative;width:100%;height:auto;padding:14px}.brand{padding-bottom:12px}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar-bottom{margin-top:12px}.main{padding:18px 14px 28px}.topbar{margin-bottom:20px}.hero{align-items:flex-start;flex-direction:column}.hero-tag{white-space:normal}.metrics{gap:9px}.metric{padding:14px}.metric-value{font-size:22px}.panel{padding:16px}.audit{padding:15px}.audit-head{align-items:flex-start;flex-direction:column}.audit-tools{width:100%}.audit-tools input{flex:1;min-width:100%}.rewrite-compare{grid-template-columns:1fr}.form-bottom>button{width:100%}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
   </style>
 
   <style>
@@ -27,7 +42,118 @@
     .demo-strip b{color:#dce5ff}.upload-zone{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;padding:12px;border:1px dashed #435273;border-radius:11px;background:#0a1120;transition:.2s}.upload-zone.dragover{border-color:var(--cyan);background:#102327}.upload-choose{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#aab5ff,#7c8cff);color:#08101e;padding:9px 13px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer}.upload-zone input{position:absolute;left:-9999px}.upload-meta{font-size:10px;color:var(--muted)}.image-preview{display:none;max-width:160px;max-height:110px;object-fit:contain;border:1px solid var(--line);border-radius:9px}.analysis-progress{display:none;margin:13px 0;padding:12px;border:1px solid #334364;border-radius:10px;background:#0b1424}.analysis-progress.show{display:block}.progress-track{height:6px;background:#263248;border-radius:20px;overflow:hidden;margin-top:8px}.progress-fill{height:100%;width:30%;background:linear-gradient(90deg,#7c8cff,#4bd7d0);border-radius:20px;animation:scan 1.2s ease-in-out infinite alternate}@keyframes scan{from{width:18%}to{width:94%}}.explain-card{border:1px solid #2a3954;background:linear-gradient(135deg,#111d32,#0c1422);border-radius:12px;padding:15px;margin:12px 0}.explain-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.explain-item{padding:11px;background:#0a1120;border:1px solid #202d43;border-radius:9px;min-width:0}.explain-item small{display:block;color:#8f9db4;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}.explain-item div{font-size:11px;line-height:1.6;color:#dce6f7;overflow-wrap:anywhere}.evidence-list{margin:8px 0 0;padding-left:18px;color:#dce6f7;font-size:11px;line-height:1.7}.demo-reason{color:#aebbd0;font-size:11px;line-height:1.6;margin:8px 0 0}.trust-note{font-size:10px;color:#8f9db4;margin-top:9px}.audit-proof{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;color:#9eacc2;font-size:10px}.status-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block}.status-dot.ok{background:var(--green)}.status-dot.off{background:var(--red)}.metric-value.live-empty{color:#7f8ca2}.demo-script{padding:20px;margin-top:18px}.demo-script ol{padding-left:20px;color:#bac7da;font-size:12px;line-height:1.8}.demo-script strong{color:#edf3ff}.hidden{display:none!important}
     @media(max-width:900px){.explain-grid{grid-template-columns:1fr}.work-grid{grid-template-columns:1fr}.sidebar{width:205px}}
     @media(max-width:640px){.app{display:block}.sidebar{position:relative;width:100%;height:auto;padding:12px}.brand{padding-bottom:12px}.nav{grid-template-columns:repeat(4,1fr)}.nav a{justify-content:center;padding:9px 4px;font-size:10px}.nav a .nav-icon{display:none}.sidebar-bottom{display:none}.main{padding:18px 13px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{display:block}.hero-tag{display:inline-block;margin-top:12px}.panel{padding:15px}}
+    .field-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;margin-top:6px}.rewrite-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.rewrite-compare>div{min-width:0;border:1px solid var(--line);background:#0a1120;border-radius:10px;padding:12px}.rewrite-compare small,.chart-title{font-size:10px;color:#9eacc2;text-transform:uppercase;letter-spacing:1px;font-weight:700}.rewrite-compare p{font-size:11px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;color:#dce6f7}.chart-wrap{margin-top:20px;border-top:1px solid var(--line);padding-top:14px}.chart-title{margin-bottom:8px}#riskChart{width:100%;height:170px;display:block}.audit-tools{display:flex;gap:7px;flex-wrap:wrap}.audit-tools input,.audit-tools select{min-width:125px;background:#090f1b;border:1px solid #263248;border-radius:8px;color:#eaf0ff;padding:7px 9px;font-size:10px}.nav a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.upload-choose:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.btn:disabled{opacity:.45;cursor:not-allowed}.risk-chart-empty{color:var(--muted);font-size:10px}@media(max-width:640px){.rewrite-compare{grid-template-columns:1fr}.audit-head{align-items:flex-start;flex-direction:column}.audit-tools{width:100%}.audit-tools input{flex:1;min-width:100%}.footer{flex-direction:column}}
   </style>
+
+
+<style id="brandguard-3d-motion">
+  /* Additive motion layer: preserves the existing layout, palette, markup and JS. */
+  :root {
+    --bg-tilt-shadow: 0 18px 42px rgba(0, 0, 0, .24);
+    --bg-lift-shadow: 0 20px 38px rgba(0, 0, 0, .22);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  /* Gentle entrance motion, staggered for a more polished dashboard feel. */
+  @keyframes bg-rise-in {
+    from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.992); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  }
+  @keyframes bg-soft-glow {
+    0%, 100% { filter: brightness(1); }
+    50%      { filter: brightness(1.08); }
+  }
+  @keyframes bg-orbit {
+    from { transform: rotate(0deg) translateX(2px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(2px) rotate(-360deg); }
+  }
+
+  main > *, .main-content > *, .content > *, .dashboard > * {
+    animation: bg-rise-in .65s cubic-bezier(.2,.75,.25,1) both;
+  }
+  main > *:nth-child(2), .main-content > *:nth-child(2),
+  .content > *:nth-child(2), .dashboard > *:nth-child(2) {
+    animation-delay: .07s;
+  }
+  main > *:nth-child(3), .main-content > *:nth-child(3),
+  .content > *:nth-child(3), .dashboard > *:nth-child(3) {
+    animation-delay: .13s;
+  }
+
+  /* Perspective depth on existing panels/cards without moving their layout. */
+  .card, .panel, .metric, .health-card, .standards, .audit,
+  .demo-script, .stat-card, .analytics-card {
+    transform: perspective(1100px) translateZ(0);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transition:
+      transform .28s cubic-bezier(.2,.7,.25,1),
+      box-shadow .28s ease,
+      border-color .28s ease,
+      filter .28s ease;
+    will-change: transform;
+  }
+  .card:hover, .panel:hover, .metric:hover, .health-card:hover,
+  .standards:hover, .audit:hover, .demo-script:hover,
+  .stat-card:hover, .analytics-card:hover {
+    transform: perspective(1100px) translateY(-4px) rotateX(.45deg) rotateY(-.35deg);
+    box-shadow: var(--bg-lift-shadow);
+    filter: saturate(1.035);
+  }
+
+  /* Existing primary actions get a subtle depth and press response. */
+  button, .btn, [role="button"] {
+    transition:
+      transform .18s cubic-bezier(.2,.7,.25,1),
+      box-shadow .18s ease,
+      filter .18s ease;
+  }
+  button:hover, .btn:hover, [role="button"]:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+  }
+  button:active, .btn:active, [role="button"]:active {
+    transform: translateY(1px) scale(.985);
+    box-shadow: none;
+  }
+
+  /* Inputs and navigation feel responsive without changing their styling. */
+  input, textarea, select {
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  }
+  input:focus, textarea:focus, select:focus {
+    transform: translateY(-1px);
+  }
+  .nav a, .sidebar a {
+    transition: transform .2s ease, background-color .2s ease, color .2s ease;
+  }
+  .nav a:hover, .sidebar a:hover { transform: translateX(3px); }
+
+  /* Small animated status indicators; no content or status values are fabricated. */
+  .live-pill .dot, .status-dot, .live-dot {
+    animation: bg-soft-glow 2.4s ease-in-out infinite;
+  }
+  .loading, .spinner {
+    transform-origin: center;
+  }
+
+  /* Respect users who request reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .card:hover, .panel:hover, .metric:hover, .health-card:hover,
+    .standards:hover, .audit:hover, .demo-script:hover,
+    .stat-card:hover, .analytics-card:hover {
+      transform: none;
+    }
+  }
+</style>
 
 </head>
 <body>
@@ -62,16 +188,16 @@
       <div class="card metric"><div class="metric-head">Total evaluated <span class="metric-icon">⌁</span></div><div class="metric-value live-empty" id="metricEvaluated">—</div><div class="metric-foot">Live evaluations recorded by backend</div></div>
       <div class="card metric"><div class="metric-head">Threats neutralized <span class="metric-icon">⬡</span></div><div class="metric-value live-empty" id="metricThreats">—</div><div class="metric-foot">Threats flagged in recorded reviews</div></div>
       <div class="card metric"><div class="metric-head">Pipeline latency <span class="metric-icon">◷</span></div><div class="metric-value live-empty" id="metricLatency">—</div><div class="metric-foot">Measured review latency when available</div></div>
-      <div class="card metric"><div class="metric-head">Guideline health <span class="metric-icon">✓</span></div><div class="metric-value" id="metricHealthScore" class="live-empty">—</div><div class="metric-foot">Live score supplied by backend</div></div>
+      <div class="card metric"><div class="metric-head">Guideline health <span class="metric-icon">✓</span></div><div class="metric-value" id="metricHealthScore">—</div><div class="metric-foot">Live score supplied by backend</div></div>
     </section>
 
     <div class="grid work-grid">
       <section class="card panel" id="reviewer">
         <div class="panel-head"><div><h2>AI guardrail reviewer</h2><div class="sub">Run a live compliance check on your content before publishing.</div></div><div class="endpoint">POST /api/review/analyze</div></div>
-        <div class="demo-strip"><b>Hackathon test cases</b><span>Select a scenario to load its content, then run the review to capture a real backend result.</span></div><div class="preset-row" style="margin-bottom:18px"><button class="btn btn-small" id="cleanPreset">✦ Clean copy preset</button><button class="btn btn-small" id="violationPreset">⚑ PII & Competitor violation</button><button class="btn btn-small" id="injectionPreset">⚡ Prompt-injection attack</button></div>
+        <div class="demo-strip"><b>Hackathon test cases</b><span>Select a scenario to load its content, then run the review to capture a real backend result.</span></div><div class="preset-row" style="margin-bottom:18px"><button class="btn btn-small" id="cleanPreset">✦ Clean copy preset</button><button class="btn btn-small" id="violationPreset">⚑ PII & Competitor violation</button><button class="btn btn-small" id="injectionPreset">⚡ Prompt-injection attack</button><button class="btn btn-small" id="brandImpersonationPreset">◇ Brand impersonation</button></div>
         <div class="field"><label for="brandRulesInput">Brand guidelines & competitor rules</label><input id="brandRulesInput" type="text" value="Tone: Professional & Empathetic. Never mention rival AcmeCorp. No 100% guaranteed financial returns." /></div>
-        <div class="field"><label for="promptInput">Submission text payload</label><textarea id="promptInput" placeholder="Enter ad copy, prompt response, or marketing draft...">Excited to announce our new partnership! Reach our founder at ceo@brandguard.ai or call 555-0199. Unlike AcmeCorp, we offer 100% guaranteed financial returns on day one!</textarea></div>
-        <div class="form-bottom"><div style="min-width:min(100%,330px)"><label class="upload-label" for="imageUpload">＋ Attach image for multi-modal ad scan</label><div class="upload-zone" id="uploadZone"><label class="upload-choose" for="imageUpload">Choose image</label><input id="imageUpload" type="file" accept="image/jpeg" /><span class="upload-meta" id="uploadMeta">Drop a JPEG here or browse · up to 5 MB</span><img id="imagePreview" class="image-preview" alt="Selected image preview" /></div></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
+        <div class="field"><label for="promptInput">Submission text payload</label><textarea id="promptInput" placeholder="Enter ad copy, prompt response, or marketing draft...">Excited to announce our new partnership! Reach our founder at ceo@brandguard.ai or call 555-0199. Unlike AcmeCorp, we offer 100% guaranteed financial returns on day one!</textarea><div class="field-meta"><span id="charCount" aria-live="polite">0 characters</span><span>Recommended: under 5,000 characters</span></div></div>
+        <div class="form-bottom"><div style="min-width:min(100%,330px)"><label class="upload-label" for="imageUpload">＋ Attach image for multi-modal ad scan</label><div class="upload-zone" id="uploadZone"><label class="upload-choose" for="imageUpload">Choose image</label><input id="imageUpload" type="file" accept="image/jpeg" /><span class="upload-meta" id="uploadMeta">Drop a JPEG here or browse · up to 5 MB</span><img id="imagePreview" class="image-preview" alt="Selected image preview" /><button type="button" class="btn btn-small hidden" id="removeImageBtn">Remove image</button></div></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
         <div class="analysis-progress" id="analysisProgress"><b style="font-size:11px;color:#dce5ff">Review in progress</b><div class="sub" id="progressMessage">Sending content to the BrandGuard review API…</div><div class="progress-track"><div class="progress-fill"></div></div></div>
 
         <div class="result">
@@ -79,7 +205,7 @@
           <div class="chips"><span id="sandboxBadge" class="chip">Sandbox: Standby</span><span id="escalationBadge" class="chip">Routing: Awaiting input</span></div>
           <div id="explainCard" class="explain-card hidden"><div class="output-head"><span>✦ Decision explanation</span><span id="decisionConfidence" class="chip">Confidence —</span></div><div class="explain-grid"><div class="explain-item"><small>Risk level</small><div id="explainRisk">—</div></div><div class="explain-item"><small>Why this decision</small><div id="explainWhy">—</div></div><div class="explain-item"><small>Detected issues</small><div id="explainIssues">—</div></div><div class="explain-item"><small>Evidence in submission</small><div id="explainEvidence">—</div></div></div><div class="trust-note" id="explainTrust">Decision details are derived from the backend response. Review the evidence before approving.</div></div>
           <div id="remediationCard" class="output hidden"><div class="output-head"><span>✦ Suggested safe rewrite</span><button class="btn btn-small" id="copySafe">Copy rewrite</button></div><p id="sanitizedText"></p></div>
-          <div id="signOffPanel" class="signoff hidden"><div><div class="section-label" style="margin-bottom:6px">Version SHA-256 · backend-issued</div><code id="versionHashDisplay">--</code></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select id="approverRole"><option value="Legal Counsel">Legal Counsel</option><option value="Brand Lead">Brand Lead</option><option value="SecOps Officer">SecOps Officer</option></select><button class="btn btn-primary btn-small" id="lockVersionBtn">Lock & sign off</button></div></div>
+          <div id="signOffPanel" class="signoff hidden"><div><div class="section-label" style="margin-bottom:6px">Version SHA-256 · backend-issued</div><code id="versionHashDisplay">--</code></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input id="approverName" aria-label="Reviewer name" placeholder="Reviewer name" maxlength="80" style="background:#121c2d;color:#dbe4f4;border:1px solid #34425a;padding:7px;border-radius:7px;font-size:10px" /><select id="approverRole"><option value="Legal Counsel">Legal Counsel</option><option value="Brand Lead">Brand Lead</option><option value="SecOps Officer">SecOps Officer</option></select><button class="btn btn-primary btn-small" id="lockVersionBtn">Lock & sign off</button></div></div><div id="rewriteCompare" class="rewrite-compare hidden"><div><small>Original submission</small><p id="originalTextCompare"></p></div><div><small>Suggested safe rewrite</small><p id="safeTextCompare"></p></div></div>
           <div class="section-label" style="margin:17px 0 8px">Raw JSON response</div><pre id="rawJsonResponse" class="json">// Response payload will render here after execution...</pre>
         </div>
       </section>
@@ -88,10 +214,10 @@
         <section class="card health-card" id="analytics">
           <div class="health-head"><h3>Guideline health</h3><span class="health-score" id="healthScoreTag">—</span></div>
           <div class="health-track"><div class="health-fill" id="healthFill" style="width:0"></div></div><div class="health-caption"><span>Compliance score</span><span>Target: 90%</span></div>
-          <div style="border-top:1px solid var(--line);margin-top:19px;padding-top:17px"><h3 style="font-size:13px">Recurring bottlenecks</h3><div class="sub">Most frequent sources of review friction.</div><div id="bottlenecksContainer"><div class="sub" style="margin-top:18px">Loading analytics stream...</div></div></div>
+          <div style="border-top:1px solid var(--line);margin-top:19px;padding-top:17px"><h3 style="font-size:13px">Recurring bottlenecks</h3><div class="sub">Most frequent sources of review friction.</div><div id="bottlenecksContainer"><div class="sub" style="margin-top:18px">Loading analytics stream...</div></div><div class="chart-wrap"><div class="chart-title">Review risk distribution</div><canvas id="riskChart" width="640" height="190" role="img" aria-label="Review risk distribution chart. Chart data appears when analytics API provides it."></canvas><div id="chartCaption" class="trust-note">Waiting for live analytics data.</div></div></div>
         </section>
         <section class="card standards">
-          <h3>Governance standards</h3>
+          <h3>Governance standards</h3><div class="sub">Configured demo controls; live enforcement must be verified against backend behavior.</div>
           <div class="standard"><span class="check">✓</span>SHA-256 immutable version locking</div>
           <div class="standard"><span class="check">✓</span>Prompt-injection isolation</div>
           <div class="standard"><span class="check">✓</span>Multi-modal ad & logo verification</div>
@@ -101,7 +227,7 @@
     </div>
 
     <section class="card audit" id="audit">
-      <div class="audit-head"><div><h2>Live audit trail</h2><div class="sub">Recent evaluation events and approval records.</div></div><button class="btn btn-small" id="refreshLogs">↻ Refresh logs</button></div>
+      <div class="audit-head"><div><h2>Live audit trail</h2><div class="sub">Recent evaluation events and approval records.</div></div><div class="audit-tools"><input id="auditSearch" aria-label="Search audit records" placeholder="Search records…" /><select id="auditStatusFilter" aria-label="Filter audit status"><option value="">All statuses</option><option>APPROVED</option><option>FLAGGED</option><option>BLOCKED</option></select><button class="btn btn-small" id="exportAuditBtn">Export CSV</button><button class="btn btn-small" id="refreshLogs">↻ Refresh logs</button></div></div>
       <div class="table-wrap"><table><thead><tr><th>Time (UTC)</th><th>Submission ID</th><th>Snippet</th><th>Risk</th><th>Status / sign-off</th><th>SHA-256 hash</th></tr></thead><tbody id="auditLogsTableBody"><tr><td colspan="6" class="empty">No audit events recorded in current session.</td></tr></tbody></table></div>
     </section>
     <section class="card demo-script" id="demoGuide"><div class="panel-head"><div><h2>Live demo runbook</h2><div class="sub">A short, repeatable story for judges.</div></div><span class="endpoint">3–4 MIN</span></div><ol><li><strong>Problem:</strong> teams can publish risky copy, expose customer data or follow hostile instructions.</li><li><strong>Solution:</strong> submit content to BrandGuard for policy-aware AI review before publication.</li><li><strong>Show three cases:</strong> clean copy should pass; PII / competitor / guaranteed-return claims should be flagged or blocked; prompt injection should be isolated and rejected.</li><li><strong>Close the loop:</strong> inspect the explanation and evidence, sign off the reviewed version, then refresh the audit trail to show the backend record and hash.</li></ol><div class="trust-note">For judging: describe only results actually returned by the live backend. Offline or disconnected states are clearly marked and are not counted as approvals.</div></section>
@@ -157,7 +283,7 @@
   $('copySafe').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('sanitizedText').textContent);toast('Safe rewrite copied');}catch(e){toast('Clipboard access unavailable');}});
   $('lockVersionBtn').addEventListener('click',lockCurrentVersion);
   async function fileToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.readAsDataURL(file);reader.onload=()=>resolve(reader.result);reader.onerror=reject;});}
-  function setSelectedImage(file){if(!file)return;if(file.type!=='image/jpeg'){toast('Please select a JPEG image.');$('imageUpload').value='';return;}if(file.size>5*1024*1024){toast('Image must be 5 MB or smaller.');$('imageUpload').value='';return;}const url=URL.createObjectURL(file);$('imagePreview').src=url;$('imagePreview').style.display='block';setText('uploadMeta',`${file.name} · ${(file.size/1024/1024).toFixed(2)} MB`);}
+  function setSelectedImage(file){if(!file)return;if(file.type!=='image/jpeg'){toast('Please select a JPEG image.');$('imageUpload').value='';return;}if(file.size>5*1024*1024){toast('Image must be 5 MB or smaller.');$('imageUpload').value='';return;}const url=URL.createObjectURL(file);window._bgOriginalPreviewUrl=url;$('imagePreview').src=url;$('imagePreview').style.display='block';setText('uploadMeta',`${file.name} · ${(file.size/1024/1024).toFixed(2)} MB`);}
   $('imageUpload').addEventListener('change',e=>setSelectedImage(e.target.files?.[0]));
   const zone=$('uploadZone');['dragenter','dragover'].forEach(evt=>zone.addEventListener(evt,e=>{e.preventDefault();zone.classList.add('dragover');}));['dragleave','drop'].forEach(evt=>zone.addEventListener(evt,e=>{e.preventDefault();zone.classList.remove('dragover');}));zone.addEventListener('drop',e=>{const f=e.dataTransfer.files?.[0];if(!f)return;const dt=new DataTransfer();dt.items.add(f);$('imageUpload').files=dt.files;setSelectedImage(f);});
   async function runEvaluation(){
@@ -199,5 +325,231 @@
   async function checkBackendHealth(){try{const res=await fetch(`${API_BASE}/health`,{signal:AbortSignal.timeout(7000)});if(!res.ok)throw new Error(`HTTP ${res.status}`);const health=await res.json();backendOnline=true;const gemini=health.gemini_active===true;setText('systemStatusText',gemini?'Backend + Gemini 3.5 online':'Backend online · model status unconfirmed');setText('pipelineStatusText','Pipeline connected');$('systemDot').style.background='var(--green)';$('pipelineDot').style.background='var(--green)';}catch(e){backendOnline=false;setText('systemStatusText','Backend unavailable');setText('pipelineStatusText','Connection required');$('systemDot').style.background='var(--red)';$('pipelineDot').style.background='var(--red)';}}
   document.addEventListener('DOMContentLoaded',()=>{checkBackendHealth();refreshAnalytics();refreshAuditLogs();});
 </script>
+
+<script>
+(() => {
+  'use strict';
+  const el = id => document.getElementById(id);
+  const txt = (id, value) => { const node = el(id); if (node) node.textContent = value == null ? '—' : String(value); };
+  const approved = new Set(['APPROVED','ALLOWED','PASS','CLEAN']);
+  const blocked = new Set(['BLOCKED','REJECTED','DENIED']);
+  const flagged = new Set(['FLAGGED','REVIEW','NEEDS_REVIEW','PENDING']);
+  let auditRows = [], currentStatus = '', currentHash = '', currentText = '', previewUrl = null;
+  const notify = message => typeof window.toast === 'function' ? window.toast(message) : alert(message);
+  const norm = value => String(value ?? '').trim().toUpperCase();
+  const api = window.BRANDGUARD_API_BASE || (['localhost','127.0.0.1'].includes(location.hostname) ? 'http://127.0.0.1:8000' : 'https://brandguard-ai3.onrender.com');
+  const timeoutFetch = async (url, options = {}, ms = 15000) => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
+    try { return await fetch(url, { ...options, signal: controller.signal }); }
+    finally { clearTimeout(timer); }
+  };
+  const setStatus = (status, risk) => {
+    const badge = el('responseStatusBadge'); if (!badge) return;
+    badge.textContent = `${status || 'UNKNOWN'} · Risk ${risk ?? '—'}/100`;
+    badge.className = 'status ' + (approved.has(norm(status)) ? 'good' : blocked.has(norm(status)) ? 'bad' : flagged.has(norm(status)) ? 'warn' : '');
+  };
+  function updateCounter() {
+    const n = (el('promptInput')?.value || '').length;
+    txt('charCount', `${n.toLocaleString()} characters`);
+    const counter = el('charCount'); if (counter) counter.style.color = n > 5000 ? 'var(--amber)' : 'var(--muted)';
+  }
+  el('promptInput')?.addEventListener('input', updateCounter); updateCounter();
+
+  function clearImage() {
+    const input = el('imageUpload'), img = el('imagePreview');
+    if (input) input.value = '';
+    if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+    if (window._bgOriginalPreviewUrl) { URL.revokeObjectURL(window._bgOriginalPreviewUrl); window._bgOriginalPreviewUrl = null; }
+    if (img) { img.removeAttribute('src'); img.style.display = 'none'; }
+    txt('uploadMeta', 'Drop a JPEG here or browse · up to 5 MB');
+    el('removeImageBtn')?.classList.add('hidden');
+  }
+  el('removeImageBtn')?.addEventListener('click', clearImage);
+  el('imageUpload')?.addEventListener('change', () => {
+    const file = el('imageUpload').files?.[0]; if (!file) return;
+    if (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024) { notify('Choose a JPEG image no larger than 5 MB.'); clearImage(); return; }
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = URL.createObjectURL(file);
+    const img = el('imagePreview'); img.src = previewUrl; img.style.display = 'block';
+    txt('uploadMeta', `${file.name} · ${(file.size / 1048576).toFixed(2)} MB`);
+    el('removeImageBtn')?.classList.remove('hidden');
+  });
+  el('uploadZone')?.addEventListener('drop', () => setTimeout(() => {
+    const file = el('imageUpload')?.files?.[0]; if (!file) return;
+    if (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024) { notify('Choose a JPEG image no larger than 5 MB.'); clearImage(); return; }
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = URL.createObjectURL(file); el('imagePreview').src = previewUrl; el('imagePreview').style.display = 'block'; el('removeImageBtn')?.classList.remove('hidden');
+  }, 0));
+
+  function setSignoffAvailability(status, hash) {
+    currentStatus = norm(status); currentHash = String(hash || '');
+    const button = el('lockVersionBtn'); if (!button) return;
+    const permitted = approved.has(currentStatus) && !!latestSubmissionId && !!currentHash;
+    button.disabled = !permitted;
+    button.textContent = permitted ? 'Lock & sign off' : (blocked.has(currentStatus) || flagged.has(currentStatus) ? 'Sign-off unavailable · review required' : 'Awaiting verified approval');
+    button.title = permitted ? 'Record backend sign-off for this approved version' : 'Requires an approved backend result and backend-issued hash.';
+  }
+  function showRewrite(original, rewrite) {
+    const wrap = el('rewriteCompare');
+    if (!wrap) return;
+    if (!rewrite) { wrap.classList.add('hidden'); return; }
+    txt('originalTextCompare', original || 'No text submitted'); txt('safeTextCompare', rewrite); wrap.classList.remove('hidden');
+  }
+  async function fileToDataUrl(file) {
+    return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(reader.error || new Error('Image could not be read.')); reader.readAsDataURL(file); });
+  }
+  async function runReview() {
+    const button = el('submitBtn'), text = (el('promptInput')?.value || '').trim(), file = el('imageUpload')?.files?.[0];
+    if (!text && !file) { notify('Enter text or attach an image before reviewing.'); return; }
+    if (text.length > 12000) { notify('Please keep the submission under 12,000 characters.'); return; }
+    if (file && (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024)) { notify('Choose a JPEG image no larger than 5 MB.'); return; }
+    currentText = text; latestSubmissionId = null; latestAnalysis = null; currentHash = ''; currentStatus = '';
+    button.disabled = true; button.textContent = 'Analyzing pipeline…'; el('analysisProgress')?.classList.add('show');
+    txt('progressMessage', 'Sending content to the BrandGuard review API…');
+    ['signOffPanel','explainCard','remediationCard','rewriteCompare'].forEach(id => el(id)?.classList.add('hidden'));
+    setStatus('PROCESSING', null); txt('sandboxBadge','Sandbox: Awaiting backend'); txt('escalationBadge','Routing: Pending backend decision');
+    try {
+      const imageBase64 = file ? await fileToDataUrl(file) : null;
+      const payload = { text, brand_rules: el('brandRulesInput')?.value || '', image_base64: imageBase64, modules: ['pii','toxicity','brand','injection','copyright'] };
+      const response = await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/analyze`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) }, 45000);
+      if (!response.ok) { const body = await response.text(); throw new Error(`Review API returned HTTP ${response.status}${body ? `: ${body.slice(0,180)}` : ''}`); }
+      const data = await response.json(); latestAnalysis = data; latestSubmissionId = data.submission_id || null;
+      txt('rawJsonResponse', JSON.stringify(data, null, 2));
+      const status = norm(data.status || data.decision || 'UNKNOWN'), risk = data.risk_score;
+      setStatus(status, risk);
+      const sandbox = data.prompt_injection_sandbox || {};
+      txt('sandboxBadge', sandbox.injection_detected === true ? 'Sandbox: Threat detected' : (sandbox.injection_detected === false ? 'Sandbox: Clean isolation' : 'Sandbox: Not reported'));
+      txt('escalationBadge', data.escalation_matrix?.escalated === true ? `Escalated: ${data.escalation_matrix.target_queue || 'Review queue'}` : (data.escalation_matrix ? 'Routing: No escalation reported' : 'Routing: Not reported'));
+      const issues = [data.violations,data.detected_violations,data.findings,data.policy_violations].find(Array.isArray) || [];
+      const evidence = [data.evidence,data.detected_evidence,data.matches].find(Array.isArray) || [];
+      const reason = data.reason || data.explanation || data.decision_reason || data.summary || 'The API did not provide a decision explanation.';
+      const score = Number(risk), level = Number.isFinite(score) ? (score >= 70 ? 'Critical' : score >= 40 ? 'High' : score >= 20 ? 'Moderate' : 'Low') : 'Not provided';
+      txt('explainRisk', `${level}${Number.isFinite(score) ? ` · ${score}/100` : ''} · ${status}`);
+      txt('explainWhy', reason);
+      txt('explainIssues', issues.length ? issues.map(x => typeof x === 'string' ? x : (x.description || x.rule || x.type || JSON.stringify(x))).join(' · ') : 'No structured violation list returned by backend.');
+      txt('explainEvidence', evidence.length ? evidence.map(x => typeof x === 'string' ? x : (x.evidence || x.text || x.match || JSON.stringify(x))).join(' · ') : 'No backend evidence field supplied.');
+      txt('decisionConfidence', `Confidence ${data.confidence_score ?? '—'}${data.confidence_score != null ? '%' : ''}`);
+      txt('explainTrust', 'Decision, findings and evidence above are taken from the backend response. Frontend checks are not represented as AI findings.');
+      el('explainCard')?.classList.remove('hidden');
+      const rewrite = data.sanitized_rewrite || data.safe_rewrite || '';
+      txt('sanitizedText', rewrite); el('remediationCard')?.classList.toggle('hidden', !rewrite); showRewrite(text, rewrite);
+      const hash = data.version_lock_audit?.sha256_immutable_hash || data.sha256_version_hash || data.version_hash || '';
+      txt('versionHashDisplay', hash || 'Backend hash not supplied');
+      el('signOffPanel')?.classList.remove('hidden'); setSignoffAvailability(status, hash);
+      await Promise.allSettled([refreshAuditLogs(), refreshAnalytics()]);
+      notify('Live backend analysis completed.');
+    } catch (error) {
+      setStatus('API UNAVAILABLE · NO DECISION', null); txt('sandboxBadge','Sandbox: Not verified'); txt('escalationBadge','Routing: Not available');
+      txt('explainRisk','No verified result'); txt('explainWhy', error.name === 'AbortError' ? 'The review request timed out. Check the backend and retry.' : error.message);
+      txt('explainIssues','No backend findings received'); txt('explainEvidence','No backend evidence received'); txt('decisionConfidence','Confidence —');
+      txt('rawJsonResponse', JSON.stringify({error:error.message, note:'No offline approval or fabricated result was generated.'}, null, 2));
+      el('explainCard')?.classList.remove('hidden'); el('signOffPanel')?.classList.add('hidden');
+      notify('Backend review failed. No decision or approval was recorded.');
+    } finally { button.disabled = false; button.textContent = 'Run guardrail analysis  →'; el('analysisProgress')?.classList.remove('show'); }
+  }
+  document.addEventListener('click', event => {
+    if (event.target.closest('#submitBtn')) { event.preventDefault(); event.stopImmediatePropagation(); runReview(); }
+    if (event.target.closest('#lockVersionBtn')) { event.preventDefault(); event.stopImmediatePropagation(); signOff(); }
+    if (event.target.closest('#refreshLogs')) { event.preventDefault(); event.stopImmediatePropagation(); refreshAuditLogs(); }
+  }, true);
+
+  async function signOff() {
+    const name = (el('approverName')?.value || '').trim(), role = el('approverRole')?.value || '';
+    if (!name) { notify('Enter the reviewer name before sign-off.'); el('approverName')?.focus(); return; }
+    if (!latestSubmissionId || !currentHash || !approved.has(currentStatus)) { notify('Sign-off requires an approved backend decision and backend-issued hash.'); return; }
+    const button = el('lockVersionBtn'); button.disabled = true; const old = button.textContent; button.textContent = 'Signing…';
+    try {
+      const response = await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/sign-off`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({submission_id:latestSubmissionId,approver_role:role,approver_name:name,decision:'APPROVED_VERSION_LOCKED'})}, 20000);
+      if (!response.ok) throw new Error(`Sign-off API returned HTTP ${response.status}`);
+      const result = await response.json(); const hash = result.immutable_lock_hash || result.sha256_version_hash || result.version_hash;
+      if (!hash) throw new Error('Backend did not return a sign-off hash.');
+      txt('versionHashDisplay', hash); button.textContent = `Signed · ${String(hash).slice(0,8)}`; button.disabled = true;
+      notify('Backend sign-off recorded.'); await refreshAuditLogs();
+    } catch (error) { button.textContent = old; notify(`Sign-off not recorded: ${error.name === 'AbortError' ? 'request timed out' : error.message}`); setSignoffAvailability(currentStatus,currentHash); }
+  }
+  el('copySafe')?.addEventListener('click', async event => {
+    event.stopImmediatePropagation();
+    try { await navigator.clipboard.writeText(el('sanitizedText')?.textContent || ''); notify('Safe rewrite copied.'); }
+    catch (_) { notify('Clipboard access unavailable.'); }
+  }, true);
+
+  function renderChart(data) {
+    const canvas = el('riskChart'), caption = el('chartCaption'); if (!canvas || !caption) return;
+    const ctx = canvas.getContext('2d'); if (!ctx) { caption.textContent = 'Chart is not supported in this browser.'; return; }
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const source = data.risk_distribution || data.status_distribution || data.review_distribution;
+    if (!source || (Array.isArray(source) ? !source.length : !Object.keys(source).length)) { caption.textContent = 'No distribution data supplied by analytics API; no sample chart is shown.'; return; }
+    const rows = Array.isArray(source) ? source.map(x => [x.label || x.status || x.risk || 'Other', Number(x.count ?? x.total ?? 0)]) : Object.entries(source).map(([k,v]) => [k, Number(typeof v === 'object' ? (v.count ?? v.total ?? 0) : v)]);
+    const max = Math.max(1,...rows.map(x => Number.isFinite(x[1]) ? x[1] : 0));
+    const slot = (canvas.width - 50) / Math.max(rows.length,1), barWidth = Math.max(12, Math.min(64, slot * .55));
+    ctx.font = '12px sans-serif'; rows.forEach(([label,value],i) => { const x=25+i*slot+(slot-barWidth)/2, h=Math.max(0,(value/max)*112), y=140-h; ctx.fillStyle='#7c8cff';ctx.fillRect(x,y,barWidth,h);ctx.fillStyle='#dce6f7';ctx.fillText(String(value),x,y-6);ctx.fillStyle='#9eacc2';ctx.fillText(String(label).slice(0,10),x-5,160); });
+    caption.textContent = 'Distribution from the live analytics API.';
+  }
+  window.refreshAnalytics = async function() {
+    try {
+      const response = await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/analytics`, {}, 15000);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      const score = data.guideline_health_score;
+      txt('metricHealthScore', score ?? '—'); txt('healthScoreTag', score ?? '—');
+      const numeric = Number.parseFloat(String(score ?? '').replace('%',''));
+      if (Number.isFinite(numeric)) el('healthFill').style.width = `${Math.max(0,Math.min(100,numeric))}%`;
+      else el('healthFill').style.width = '0%';
+      const total = data.total_evaluated ?? data.total_reviews ?? data.total_submissions;
+      const threats = data.threats_neutralized ?? data.blocked_count ?? data.violations_detected;
+      const latency = data.pipeline_latency_ms;
+      txt('metricEvaluated', total ?? '—'); txt('metricThreats', threats ?? '—'); txt('metricLatency', latency == null ? '—' : `${latency} ms`);
+      const container = el('bottlenecksContainer'); container.replaceChildren();
+      (Array.isArray(data.top_team_bottlenecks) ? data.top_team_bottlenecks : []).forEach(item => {
+        const wrap=document.createElement('div'),line=document.createElement('div'),name=document.createElement('span'),count=document.createElement('span'),bar=document.createElement('div'),fill=document.createElement('span');
+        wrap.className='bottleneck';line.className='bottleneck-line';name.textContent=item.bottleneck || 'Other';count.textContent=`${item.share_pct ?? 0}% · ${item.incidents ?? 0}`;line.append(name,count);bar.className='bar';fill.style.width=`${Math.max(0,Math.min(100,Number(item.share_pct)||0))}%`;bar.append(fill);wrap.append(line,bar);container.append(wrap);
+      });
+      if (!container.children.length) container.textContent='No bottleneck data returned yet.';
+      renderChart(data);
+    } catch (error) { txt('metricHealthScore','—');txt('healthScoreTag','—');el('healthFill').style.width='0%';txt('bottlenecksContainer',`Analytics unavailable: ${error.name === 'AbortError' ? 'request timed out' : error.message}`);txt('chartCaption','No live chart data available.'); }
+  };
+
+  function renderAudit() {
+    const body=el('auditLogsTableBody'); if(!body)return;
+    const query=(el('auditSearch')?.value||'').toLowerCase(), filter=norm(el('auditStatusFilter')?.value);
+    const rows=auditRows.filter(row=>{const status=norm(row.sign_off_status||row.action||row.status);const hay=[row.time,row.timestamp,row.submission_id,row.text_snippet,row.risk_score,row.sign_off_status,row.action,row.sha256_version_hash,row.immutable_lock_hash].join(' ').toLowerCase();return (!query||hay.includes(query))&&(!filter||status.includes(filter));});
+    body.replaceChildren(); if(!rows.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.className='empty';td.textContent=auditRows.length?'No records match these filters.':'No live audit records returned by backend.';tr.append(td);body.append(tr);return;}
+    rows.forEach(row=>{const tr=document.createElement('tr'),values=[row.time||row.timestamp,row.submission_id,row.text_snippet,`${row.risk_score??'—'}/100`,row.sign_off_status||row.action||row.status,row.sha256_version_hash||row.immutable_lock_hash||'—'];values.forEach((value,index)=>{const td=document.createElement('td');td.textContent=value==null?'—':String(value);if(index===3)td.className='risk '+(Number(row.risk_score)>70?'risk-high':Number(row.risk_score)>30?'risk-mid':'risk-low');tr.append(td);});body.append(tr);});
+  }
+  window.refreshAuditLogs = async function() {
+    try { const response=await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/logs`,{},15000);if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json();auditRows=Array.isArray(data.logs)?data.logs:[];renderAudit(); }
+    catch(error){auditRows=[];renderAudit();const body=el('auditLogsTableBody');if(body&&body.querySelector('.empty'))body.querySelector('.empty').textContent=`Audit API unavailable (${error.name==='AbortError'?'timeout':error.message}). No sample records are shown.`;}
+  };
+  el('auditSearch')?.addEventListener('input',renderAudit);el('auditStatusFilter')?.addEventListener('change',renderAudit);
+  el('exportAuditBtn')?.addEventListener('click',()=>{
+    const query=(el('auditSearch')?.value||'').toLowerCase(),filter=norm(el('auditStatusFilter')?.value);
+    const rows=auditRows.filter(row=>{const status=norm(row.sign_off_status||row.action||row.status),hay=Object.values(row).join(' ').toLowerCase();return (!query||hay.includes(query))&&(!filter||status.includes(filter));});
+    if(!rows.length){notify('There are no live audit records matching the current filters.');return;}
+    const columns=['time','timestamp','submission_id','text_snippet','risk_score','sign_off_status','action','sha256_version_hash','immutable_lock_hash'];
+    const quote=value=>`"${String(value??'').replace(/"/g,'""')}"`;
+    const csv=[columns.join(','),...rows.map(row=>columns.map(key=>quote(row[key])).join(','))].join('\r\n');
+    const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),anchor=document.createElement('a');anchor.href=url;anchor.download='brandguard-live-audit.csv';anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+
+  // Fourth scenario adds coverage without changing the existing presets.
+  el('brandImpersonationPreset')?.addEventListener('click',()=>{
+    el('promptInput').value='Our official BrandGuard support team is giving away account upgrades. Send your password and verification code to support-brandguard.example immediately.';
+    el('brandRulesInput').value='Tone: Professional. Never impersonate official support, request passwords or verification codes, or use misleading domains.';
+    latestSubmissionId=null;currentHash='';['signOffPanel','remediationCard','explainCard','rewriteCompare'].forEach(id=>el(id)?.classList.add('hidden'));
+    txt('rawJsonResponse','// Scenario loaded. Run the guardrail analysis to send it to the backend.');txt('responseStatusBadge','Scenario loaded · ready to review');updateCounter();notify('Brand impersonation scenario loaded.');
+  });
+  // Add a reviewer label and semantic accessibility without rearranging the dashboard.
+  el('approverName')?.setAttribute('aria-label','Reviewer name (required)');el('approverName')?.setAttribute('autocomplete','name');el('approverName')?.setAttribute('required','required');
+  el('promptInput')?.setAttribute('aria-describedby','charCount');el('imageUpload')?.setAttribute('aria-describedby','uploadMeta');
+  document.querySelectorAll('.nav a').forEach(link=>link.setAttribute('aria-label',link.textContent.trim()));
+  if ('IntersectionObserver' in window) {
+    const links=[...document.querySelectorAll('.nav a')], sections=links.map(link=>document.getElementById((link.getAttribute('href')||'').slice(1))).filter(Boolean);
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting)links.forEach(link=>{const active=link.hash===`#${entry.target.id}`;link.classList.toggle('active',active);if(active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});}),{rootMargin:'-20% 0px -70% 0px'});
+    sections.forEach(section=>observer.observe(section));
+  }
+})();
+</script>
+
 </body>
 </html>
