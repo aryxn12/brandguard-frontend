@@ -409,16 +409,17 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
       const response = await timeoutFetch(`${api.replace(/\/$/,'')}/api/auth/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,password}) }, 15000);
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.detail || `Login failed (HTTP ${response.status})`);
-      authToken = data.access_token; signedInUser = data.user || null;
+      authToken = data.access_token || data.token || '';
+      signedInUser = data.user || (data.username ? { username: data.username, display_name: data.username, role: data.role || 'admin' } : null);
       if (!authToken || !signedInUser) throw new Error('Backend returned an incomplete login response.');
       sessionStorage.setItem(authTokenKey, authToken);
       sessionStorage.setItem('brandguard_signed_in_user', JSON.stringify(signedInUser));
-      el('loginPassword').value = ''; updateAuthUI();
+      el('loginPassword').value = ''; updateAuthUI(); await refreshAuditLogs();
       notify(`Signed in as ${signedInUser.display_name || signedInUser.username}.`);
     } catch (error) { notify(`Sign-in failed: ${error.message}`); }
     finally { if (button) { button.disabled = false; button.textContent = 'Sign in'; } }
   }
-  function logoutReviewer() { authToken = ''; signedInUser = null; sessionStorage.removeItem(authTokenKey); sessionStorage.removeItem('brandguard_signed_in_user'); updateAuthUI(); setSignoffAvailability(currentStatus, currentHash); notify('Reviewer signed out.'); }
+  function logoutReviewer() { authToken = ''; signedInUser = null; sessionStorage.removeItem(authTokenKey); sessionStorage.removeItem('brandguard_signed_in_user'); updateAuthUI(); setSignoffAvailability(currentStatus, currentHash); refreshAuditLogs(); notify('Reviewer signed out.'); }
   el('loginBtn')?.addEventListener('click', loginReviewer);
   el('logoutBtn')?.addEventListener('click', logoutReviewer);
   el('loginPassword')?.addEventListener('keydown', event => { if (event.key === 'Enter') loginReviewer(); });
@@ -442,7 +443,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
 
   async function runReview() {
     const button = el('submitBtn'), text = (el('promptInput')?.value || '').trim(), file = el('imageUpload')?.files?.[0];
-    if (!text && !file) { notify('Enter text or attach an image before reviewing.'); return; }
+    if (file) { notify('Image analysis is not enabled in the connected backend yet. Remove the image and submit text content.'); return; }
+    if (!text) { notify('Enter text before reviewing.'); return; }
     if (text.length > 12000) { notify('Please keep the submission under 12,000 characters.'); return; }
     if (file && (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024)) { notify('Choose a JPEG image no larger than 5 MB.'); return; }
     currentText = text; latestSubmissionId = null; latestAnalysis = null; window.latestAnalysis = null; currentHash = ''; currentStatus = '';
@@ -451,8 +453,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
     ['signOffPanel','explainCard','remediationCard','rewriteCompare'].forEach(id => el(id)?.classList.add('hidden'));
     setStatus('PROCESSING', null); txt('sandboxBadge','Sandbox: Awaiting backend'); txt('escalationBadge','Routing: Pending backend decision');
     try {
-      const imageBase64 = file ? await fileToDataUrl(file) : null;
-      const payload = { text, brand_rules: el('brandRulesInput')?.value || '', image_base64: imageBase64, modules: ['pii','toxicity','brand','injection','copyright'] };
+      const payload = { content: text, content_type: 'text', brand_rules: el('brandRulesInput')?.value || '', modules: ['pii','toxicity','brand','injection','copyright'] };
       const response = await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/analyze`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) }, 45000);
       if (!response.ok) { const body = await response.text(); throw new Error(`Review API returned HTTP ${response.status}${body ? `: ${body.slice(0,180)}` : ''}`); }
       const data = await response.json(); latestAnalysis = data; window.latestAnalysis = data; latestSubmissionId = data.submission_id || null;
@@ -503,7 +504,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
       const response = await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/sign-off`, {method:'POST',headers:authHeaders({'Content-Type':'application/json'}),body:JSON.stringify({submission_id:latestSubmissionId,decision:'APPROVED_VERSION_LOCKED',expected_version_hash:currentHash})}, 20000);
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(result.detail || `Sign-off API returned HTTP ${response.status}`);
-      const hash = result.immutable_lock_hash || result.sha256_version_hash || result.version_hash;
+      const hash = result.version_lock_audit?.sha256_immutable_hash || result.immutable_lock_hash || result.sha256_version_hash || result.version_hash;
       if (!hash) throw new Error('Backend did not return a sign-off hash.');
       txt('versionHashDisplay', hash); button.textContent = `Signed · ${String(hash).slice(0,8)}`; button.disabled = true;
       currentStatus = result.decision || 'APPROVED_VERSION_LOCKED';
@@ -536,20 +537,20 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
       const score = data.guideline_health_score;
       txt('metricHealthScore', score ?? '—'); txt('healthScoreTag', score ?? '—');
       const numeric = Number.parseFloat(String(score ?? '').replace('%',''));
-      if (Number.isFinite(numeric)) el('healthFill').style.width = `${Math.max(0,Math.min(100,numeric))}%`;
-      else el('healthFill').style.width = '0%';
+      const healthFill = el('healthFill');
+      if (healthFill) healthFill.style.width = Number.isFinite(numeric) ? `${Math.max(0,Math.min(100,numeric))}%` : '0%';
       const total = data.total_evaluated ?? data.total_reviews ?? data.total_submissions;
       const threats = data.threats_neutralized ?? data.blocked_count ?? data.violations_detected;
       const latency = data.pipeline_latency_ms ?? data.average_latency_ms;
       txt('metricEvaluated', total ?? '—'); txt('metricThreats', threats ?? '—'); txt('metricLatency', latency == null ? '—' : `${latency} ms`);
-      const container = el('bottlenecksContainer'); container.replaceChildren();
+      const container = el('bottlenecksContainer'); if (container) container.replaceChildren();
       (Array.isArray(data.top_team_bottlenecks) ? data.top_team_bottlenecks : []).forEach(item => {
         const wrap=document.createElement('div'),line=document.createElement('div'),name=document.createElement('span'),count=document.createElement('span'),bar=document.createElement('div'),fill=document.createElement('span');
-        wrap.className='bottleneck';line.className='bottleneck-line';name.textContent=item.bottleneck || 'Other';count.textContent=`${item.share_pct ?? 0}% · ${item.incidents ?? 0}`;line.append(name,count);bar.className='bar';fill.style.width=`${Math.max(0,Math.min(100,Number(item.share_pct)||0))}%`;bar.append(fill);wrap.append(line,bar);container.append(wrap);
+        wrap.className='bottleneck';line.className='bottleneck-line';name.textContent=item.bottleneck || 'Other';count.textContent=`${item.share_pct ?? 0}% · ${item.incidents ?? 0}`;line.append(name,count);bar.className='bar';fill.style.width=`${Math.max(0,Math.min(100,Number(item.share_pct)||0))}%`;bar.append(fill);wrap.append(line,bar);container?.append(wrap);
       });
-      if (!container.children.length) container.textContent='No bottleneck data returned yet.';
+      if (container && !container.children.length) container.textContent='No bottleneck data returned yet.';
       renderChart(data);const insightView=document.querySelector('[data-view="insights"]');if(insightView)renderInsightData(insightView);
-    } catch (error) { txt('metricHealthScore','—');txt('healthScoreTag','—');el('healthFill').style.width='0%';txt('bottlenecksContainer',`Analytics unavailable: ${error.name === 'AbortError' ? 'request timed out' : error.message}`);txt('chartCaption','No live chart data available.'); }
+    } catch (error) { txt('metricHealthScore','—');txt('healthScoreTag','—');const healthFill=el('healthFill');if(healthFill)healthFill.style.width='0%';txt('bottlenecksContainer',`Analytics unavailable: ${error.name === 'AbortError' ? 'request timed out' : error.message}`);txt('chartCaption','No live chart data available.'); }
   };
 
   function renderAudit() {
@@ -560,7 +561,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
     rows.forEach(row=>{const tr=document.createElement('tr'),values=[row.time||row.timestamp,row.submission_id,row.text_snippet,`${row.risk_score??'—'}/100`,row.sign_off_status||row.action||row.status,row.sha256_version_hash||row.immutable_lock_hash||'—'];values.forEach((value,index)=>{const td=document.createElement('td');td.textContent=value==null?'—':String(value);if(index===3)td.className='risk '+(Number(row.risk_score)>70?'risk-high':Number(row.risk_score)>30?'risk-mid':'risk-low');tr.append(td);});body.append(tr);});
   }
   window.refreshAuditLogs = async function() {
-    try { const response=await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/logs`,{},15000);if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json();auditRows=Array.isArray(data.logs)?data.logs:[];renderAudit();const insightView=document.querySelector('[data-view="insights"]');if(insightView)renderInsightData(insightView); }
+    try { const response=await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/logs`,{headers:authHeaders()},15000);if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json();auditRows=Array.isArray(data.logs)?data.logs:[];renderAudit();const insightView=document.querySelector('[data-view="insights"]');if(insightView)renderInsightData(insightView); }
     catch(error){auditRows=[];renderAudit();const body=el('auditLogsTableBody');if(body&&body.querySelector('.empty'))body.querySelector('.empty').textContent=`Audit API unavailable (${error.name==='AbortError'?'timeout':error.message}). No sample records are shown.`;}
   };
   el('auditSearch')?.addEventListener('input',renderAudit);el('auditStatusFilter')?.addEventListener('change',renderAudit);
