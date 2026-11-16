@@ -242,7 +242,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
         <div class="demo-strip"><b>Hackathon test cases</b><span>Select a scenario to load its content, then run the review to capture a real backend result.</span></div><div class="preset-row" style="margin-bottom:18px"><button class="btn btn-small" id="cleanPreset">✦ Clean copy preset</button><button class="btn btn-small" id="violationPreset">⚑ PII & Competitor violation</button><button class="btn btn-small" id="injectionPreset">⚡ Prompt-injection attack</button><button class="btn btn-small" id="brandImpersonationPreset">◇ Brand impersonation</button></div>
         <div class="field"><label for="brandRulesInput">Brand guidelines & competitor rules</label><input id="brandRulesInput" type="text" value="Tone: Professional & Empathetic. Never mention rival AcmeCorp. No 100% guaranteed financial returns." /></div>
         <div class="field"><label for="promptInput">Submission text payload</label><textarea id="promptInput" placeholder="Enter ad copy, prompt response, or marketing draft...">Excited to announce our new partnership! Reach our founder at ceo@brandguard.ai or call 555-0199. Unlike AcmeCorp, we offer 100% guaranteed financial returns on day one!</textarea><div class="field-meta"><span id="charCount" aria-live="polite">0 characters</span><span>Recommended: under 5,000 characters</span></div></div>
-        <div class="form-bottom"><div style="min-width:min(100%,330px)"><label class="upload-label" for="imageUpload">＋ Attach image for multi-modal ad scan</label><div class="upload-zone" id="uploadZone"><label class="upload-choose" for="imageUpload">Choose image</label><input id="imageUpload" type="file" accept="image/jpeg" /><span class="upload-meta" id="uploadMeta">Drop a JPEG here or browse · up to 5 MB</span><img id="imagePreview" class="image-preview" alt="Selected image preview" /><button type="button" class="btn btn-small hidden" id="removeImageBtn">Remove image</button></div></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
+        <div class="form-bottom"><div style="min-width:min(100%,330px)"><label class="upload-label" for="imageUpload">＋ Attach image for multi-modal ad scan</label><div class="upload-zone" id="uploadZone"><label class="upload-choose" for="imageUpload">Choose image</label><input id="imageUpload" type="file" accept="image/jpeg,image/png,image/webp" /><span class="upload-meta" id="uploadMeta">Drop JPG, PNG or WEBP · up to 5 MB</span><img id="imagePreview" class="image-preview" alt="Selected image preview" /><button type="button" class="btn btn-small hidden" id="removeImageBtn">Remove image</button></div></div><button class="btn btn-primary" id="submitBtn">Run guardrail analysis&nbsp; →</button></div>
         <div class="analysis-progress" id="analysisProgress"><b style="font-size:11px;color:#dce5ff">Review in progress</b><div class="sub" id="progressMessage">Sending content to the BrandGuard review API…</div><div class="progress-track"><div class="progress-fill"></div></div></div>
 
         <div class="result">
@@ -368,13 +368,13 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
     if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
     if (window._bgOriginalPreviewUrl) { URL.revokeObjectURL(window._bgOriginalPreviewUrl); window._bgOriginalPreviewUrl = null; }
     if (img) { img.removeAttribute('src'); img.style.display = 'none'; }
-    txt('uploadMeta', 'Drop a JPEG here or browse · up to 5 MB');
+    txt('uploadMeta', 'Drop JPG, PNG or WEBP · up to 5 MB');
     el('removeImageBtn')?.classList.add('hidden');
   }
   el('removeImageBtn')?.addEventListener('click', clearImage);
   el('imageUpload')?.addEventListener('change', () => {
     const file = el('imageUpload').files?.[0]; if (!file) return;
-    if (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024) { notify('Choose a JPEG image no larger than 5 MB.'); clearImage(); return; }
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) { notify('Choose a JPG, PNG or WEBP image no larger than 5 MB.'); clearImage(); return; }
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     previewUrl = URL.createObjectURL(file);
     const img = el('imagePreview'); img.src = previewUrl; img.style.display = 'block';
@@ -383,7 +383,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
   });
   el('uploadZone')?.addEventListener('drop', () => setTimeout(() => {
     const file = el('imageUpload')?.files?.[0]; if (!file) return;
-    if (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024) { notify('Choose a JPEG image no larger than 5 MB.'); clearImage(); return; }
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) { notify('Choose a JPG, PNG or WEBP image no larger than 5 MB.'); clearImage(); return; }
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     previewUrl = URL.createObjectURL(file); el('imagePreview').src = previewUrl; el('imagePreview').style.display = 'block'; el('removeImageBtn')?.classList.remove('hidden');
   }, 0));
@@ -444,7 +444,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
     const button = el('submitBtn'), text = (el('promptInput')?.value || '').trim(), file = el('imageUpload')?.files?.[0];
     if (!text && !file) { notify('Enter text or attach an image before reviewing.'); return; }
     if (text.length > 12000) { notify('Please keep the submission under 12,000 characters.'); return; }
-    if (file && (file.type !== 'image/jpeg' || file.size > 5 * 1024 * 1024)) { notify('Choose a JPEG image no larger than 5 MB.'); return; }
+    if (file && (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024)) { notify('Choose a JPG, PNG or WEBP image no larger than 5 MB.'); return; }
     currentText = text; latestSubmissionId = null; latestAnalysis = null; window.latestAnalysis = null; currentHash = ''; currentStatus = '';
     button.disabled = true; button.textContent = 'Analyzing pipeline…'; el('analysisProgress')?.classList.add('show');
     txt('progressMessage', 'Sending content to the BrandGuard review API…');
@@ -668,18 +668,161 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
       viewHost.append(view); views.set(id,view); return view;
     }
     function buildDataWorkspace(view) {
-      view.innerHTML = `<div class="bg-feature-head"><div><div class="eyebrow">✦ GOVERNANCE DATA</div><h2>Data workspace</h2><p class="bg-muted">Upload a CSV, preview its rows locally, then send a selected text field to the existing review API.</p></div><span class="endpoint">LOCAL CSV PREVIEW</span></div>
-      <div class="bg-feature-grid"><section class="bg-feature-card" style="grid-column:span 2"><h3>Bring your data into focus</h3><p>Choose a CSV containing content you want to review. The file is parsed in this browser; it is not uploaded to the backend automatically.</p><div class="bg-drop"><div style="font-size:28px">⇧</div><b>Drop a CSV or browse your device</b><div class="bg-muted">CSV only · preview stays in this browser</div><input id="bgCsvFile" type="file" accept=".csv,text/csv"></div><div id="bgCsvStatus" class="bg-muted" style="margin-top:12px">No dataset selected.</div></section>
-      <section class="bg-feature-card"><h3>Business context</h3><p>Choose the type of content you are reviewing. This is context for your workflow, not a policy change.</p><select id="bgProfile" style="width:100%"><option>Marketing & advertising</option><option>Customer communications</option><option>Product documentation</option><option>Internal AI outputs</option></select><p class="bg-muted">Select a text column below to load a row into AI Reviewer.</p></section></div>
-      <section class="bg-feature-card" style="margin-top:14px"><div class="bg-feature-head"><div><h3>Dataset preview</h3><p class="bg-muted">Select “Review row” to move content into the existing reviewer.</p></div><span id="bgCsvCount" class="chip">0 rows</span></div><div class="table-wrap"><table class="bg-table"><thead id="bgCsvHead"><tr><th>Preview</th></tr></thead><tbody id="bgCsvBody"><tr><td class="empty">Upload a CSV to preview rows.</td></tr></tbody></table></div></section>`;
-      const fileInput=view.querySelector('#bgCsvFile'); fileInput.addEventListener('change', async()=>{const file=fileInput.files?.[0];if(!file)return;if(file.size>5*1024*1024){notify('CSV must be 5 MB or smaller.');fileInput.value='';return;}try{const text=await file.text();const rows=parseCSV(text);if(rows.length<2)throw new Error('The CSV needs a header row and at least one data row.');const headers=rows[0];const body=view.querySelector('#bgCsvBody'),head=view.querySelector('#bgCsvHead');head.innerHTML='<tr>'+headers.map(h=>`<th>${escapeHTML(h)}</th>`).join('')+'<th>Action</th></tr>';body.replaceChildren();rows.slice(1,31).forEach((row)=>{const tr=document.createElement('tr');headers.forEach((_,i)=>{const td=document.createElement('td');td.textContent=row[i]||'';tr.append(td);});const action=document.createElement('td'),btn=document.createElement('button');btn.className='btn btn-small';btn.textContent='Review row';btn.addEventListener('click',()=>{const selected=window.prompt('Enter the column number (1–'+headers.length+') containing the content to review:',String(Math.max(1,headers.findIndex(h=>/text|content|copy|message|prompt/i.test(h))+1)));const n=Number(selected)-1;if(!Number.isInteger(n)||n<0||n>=headers.length)return;el('promptInput').value=row[n]||'';updateCounter();activate('reviewer');notify('Selected CSV row loaded into AI Reviewer. Run analysis to submit it.');});action.append(btn);tr.append(action);body.append(tr);});view.querySelector('#bgCsvCount').textContent=`${rows.length-1} rows · showing ${Math.min(rows.length-1,30)}`;view.querySelector('#bgCsvStatus').textContent=`${file.name} · ${rows.length-1} data rows · parsed locally`; }catch(err){view.querySelector('#bgCsvStatus').textContent=err.message;notify('Could not parse CSV: '+err.message);}});
+      const state = { fileName:'', headers:[], rows:[], validRows:[], invalidRows:[], duplicates:[], results:[], contentColumn:-1, search:'', busy:false };
+      view.innerHTML = `<div class="bg-feature-head"><div><div class="eyebrow">✦ GOVERNANCE DATA</div><h2>Data workspace</h2><p class="bg-muted">Validate, inspect, deduplicate and submit CSV records to BrandGuard AI. File parsing happens in this browser; selected records are sent to the review API.</p></div><span class="endpoint">CSV + AI REVIEW</span></div>
+      <div class="bg-feature-grid"><section class="bg-feature-card" style="grid-column:span 2"><h3>Import dataset</h3><p>Upload a CSV file up to 5 MB. Your original file remains in your browser; only rows you choose to review are sent to the backend.</p><div class="bg-drop" id="bgCsvDrop"><div style="font-size:28px">⇧</div><b>Drop a CSV or browse your device</b><div class="bg-muted">CSV · UTF-8 recommended · maximum 5 MB</div><input id="bgCsvFile" type="file" accept=".csv,text/csv"></div><div id="bgCsvStatus" class="bg-muted" style="margin-top:12px">No dataset selected.</div></section>
+      <section class="bg-feature-card"><h3>Dataset health</h3><div class="metric-value" id="bgCsvValid">0</div><p class="bg-muted">Valid rows</p><div class="metric-head">Invalid rows: <b id="bgCsvInvalid">0</b></div><div class="metric-head">Duplicates: <b id="bgCsvDuplicates">0</b></div><div class="metric-head">AI reviewed: <b id="bgCsvReviewed">0</b></div></section></div>
+      <section class="bg-feature-card" style="margin-top:14px"><div class="bg-feature-head"><div><h3>Columns & processing</h3><p class="bg-muted">Choose the column containing copy, content, message or prompt to send for AI review.</p></div></div><div class="bg-feature-grid"><div><label for="bgCsvColumn">Content column</label><select id="bgCsvColumn" style="width:100%" disabled><option value="">Upload a CSV first</option></select></div><div><label for="bgCsvSearch">Search rows</label><input id="bgCsvSearch" type="search" placeholder="Search dataset…" disabled></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-primary" id="bgCsvReview" disabled>Review valid rows with AI</button><button class="btn btn-small" id="bgCsvExport" disabled>Export AI results CSV</button><button class="btn btn-small" id="bgCsvValidation" disabled>Export validation report</button></div><div id="bgCsvProgress" class="bg-muted" style="margin-top:10px" aria-live="polite">Upload a file to begin.</div></section>
+      <section class="bg-feature-card" style="margin-top:14px"><div class="bg-feature-head"><div><h3>Dataset preview</h3><p class="bg-muted">Rows with missing fields or inconsistent column counts are excluded from AI submission. Duplicate rows are marked and skipped by default.</p></div><span id="bgCsvCount" class="chip">0 rows</span></div><div class="table-wrap"><table class="bg-table"><thead id="bgCsvHead"><tr><th>Upload a CSV to preview data</th></tr></thead><tbody id="bgCsvBody"><tr><td class="empty">No dataset loaded.</td></tr></tbody></table></div></section>
+      <section class="bg-feature-card" style="margin-top:14px"><h3>Validation details</h3><div id="bgCsvIssues" class="bg-insight-list"><div class="bg-insight-item">File validation results will appear here.</div></div></section>`;
+      const $ = id => view.querySelector('#'+id);
+      const fileInput=$('bgCsvFile'), drop=$('bgCsvDrop');
+      const updateStats=()=>{
+        $('bgCsvValid').textContent=state.validRows.length;
+        $('bgCsvInvalid').textContent=state.invalidRows.length;
+        $('bgCsvDuplicates').textContent=state.duplicates.length;
+        $('bgCsvReviewed').textContent=state.results.length;
+        $('bgCsvCount').textContent=`${state.rows.length} data rows`;
+        $('bgCsvReview').disabled=!state.validRows.length||state.contentColumn<0||state.busy;
+        $('bgCsvExport').disabled=!state.results.length;
+        $('bgCsvValidation').disabled=!state.headers.length;
+      };
+      const issue=(message)=>{const d=document.createElement('div');d.className='bg-insight-item';d.textContent=message;$('bgCsvIssues').append(d);};
+      const renderPreview=()=>{
+        const q=$('bgCsvSearch').value.trim().toLowerCase();
+        const head=$('bgCsvHead'),body=$('bgCsvBody');head.replaceChildren();body.replaceChildren();
+        const hr=document.createElement('tr');state.headers.forEach(h=>{const th=document.createElement('th');th.textContent=h;hr.append(th);});const actionHead=document.createElement('th');actionHead.textContent='Validation';hr.append(actionHead);head.append(hr);
+        const filtered=state.rows.filter(r=>!q||r.values.some(v=>String(v).toLowerCase().includes(q))).slice(0,100);
+        filtered.forEach(r=>{
+          const tr=document.createElement('tr');
+          r.values.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td);});
+          const td=document.createElement('td');td.textContent=r.duplicate?'Duplicate':r.errors.length?'Invalid':'Valid';td.title=r.errors.join('; ');tr.append(td);body.append(tr);
+        });
+        if(!filtered.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=state.headers.length+1;td.className='empty';td.textContent='No matching rows.';tr.append(td);body.append(tr);}
+        $('bgCsvCount').textContent=`${state.rows.length} rows · showing ${filtered.length}${state.rows.length>100?' (first 100 matches)':''}`;
+      };
+      const processText=(text,fileName)=>{
+        const parsed=parseCSV(text);
+        if(parsed.errors.length) throw new Error(parsed.errors.join(' '));
+        if(!parsed.rows.length) throw new Error('The CSV file is empty.');
+        const headers=parsed.rows[0].map((h,i)=>String(h||'').trim()||`Column ${i+1}`);
+        if(!headers.some(Boolean)) throw new Error('A header row is required.');
+        const rows=parsed.rows.slice(1).map((values,index)=>{
+          const errors=[];
+          if(values.length!==headers.length)errors.push(`Expected ${headers.length} columns; found ${values.length}.`);
+          const normalized=headers.map((_,i)=>String(values[i]??'').trim());
+          if(normalized.every(v=>!v))errors.push('Empty row.');
+          return {rowNumber:index+2,values:normalized,errors,duplicate:false};
+        }).filter(r=>!r.errors.includes('Empty row'));
+        const seen=new Map(),duplicates=[];
+        rows.forEach(r=>{
+          const key=JSON.stringify(r.values.map(v=>v.trim().toLowerCase()));
+          if(seen.has(key)){r.duplicate=true;duplicates.push(r);}
+          else seen.set(key,r.rowNumber);
+        });
+        state.fileName=fileName;state.headers=headers;state.rows=rows;
+        state.invalidRows=rows.filter(r=>r.errors.length);
+        state.duplicates=duplicates;
+        state.validRows=rows.filter(r=>!r.errors.length&&!r.duplicate);
+        state.results=[];
+        const guess=headers.findIndex(h=>/text|content|copy|message|prompt|description|caption/i.test(h));
+        state.contentColumn=guess>=0?guess:0;
+        const select=$('bgCsvColumn');select.replaceChildren();
+        headers.forEach((h,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=`${i+1}. ${h}`;select.append(opt);});
+        select.value=String(state.contentColumn);select.disabled=false;$('bgCsvSearch').disabled=false;
+        $('bgCsvStatus').textContent=`${fileName} · ${rows.length} data rows parsed locally · ${state.invalidRows.length} invalid · ${duplicates.length} duplicates`;
+        $('bgCsvIssues').replaceChildren();
+        if(state.invalidRows.length)issue(`${state.invalidRows.length} invalid row(s) were excluded from AI review because their column count did not match the header.`);
+        if(duplicates.length)issue(`${duplicates.length} duplicate row(s) were identified and excluded from AI review. The first occurrence is retained.`);
+        if(!state.invalidRows.length&&!duplicates.length)issue('Validation passed: no malformed or duplicate rows were found.');
+        renderPreview();updateStats();
+        $('bgCsvProgress').textContent='Ready. Select the content column, then run AI review.';
+      };
+      fileInput.addEventListener('change',async()=>{
+        const file=fileInput.files?.[0];if(!file)return;
+        if(file.size>5*1024*1024){$('bgCsvStatus').textContent='File is larger than 5 MB.';fileInput.value='';return;}
+        if(!/\.csv$/i.test(file.name)&&file.type!=='text/csv'){ $('bgCsvStatus').textContent='Please choose a .csv file.';fileInput.value='';return; }
+        try{processText(await file.text(),file.name);}catch(e){state.headers=[];state.rows=[];state.validRows=[];state.invalidRows=[];state.duplicates=[];updateStats();$('bgCsvStatus').textContent=e.message;notify(`CSV import failed: ${e.message}`);}
+      });
+      drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('dragover');});
+      drop.addEventListener('dragleave',()=>drop.classList.remove('dragover'));
+      drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('dragover');const file=e.dataTransfer?.files?.[0];if(!file)return;const dt=new DataTransfer();dt.items.add(file);fileInput.files=dt.files;fileInput.dispatchEvent(new Event('change'));});
+      $('bgCsvColumn').addEventListener('change',e=>{state.contentColumn=Number(e.target.value);updateStats();});
+      $('bgCsvSearch').addEventListener('input',renderPreview);
+      $('bgCsvReview').addEventListener('click',async()=>{
+        if(state.busy)return;
+        if(!api){notify('Backend URL is not configured.');return;}
+        const selected=state.validRows;
+        if(!selected.length)return;
+        state.busy=true;updateStats();const button=$('bgCsvReview');button.textContent='Reviewing…';
+        const results=[];
+        try{
+          for(let i=0;i<selected.length;i++){
+            const row=selected[i],content=String(row.values[state.contentColumn]||'').trim();
+            if(!content){results.push({row_number:row.rowNumber,status:'SKIPPED_EMPTY',risk_score:'',submission_id:'',findings:'Selected content cell is empty'});}
+            else{
+              $('bgCsvProgress').textContent=`Submitting row ${i+1} of ${selected.length} to backend AI review…`;
+              try{
+                const response=await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:content,brand_rules:el('brandRulesInput')?.value||'',modules:['pii','toxicity','brand','injection','copyright'],source:'csv_workspace',source_row:row.rowNumber})},45000);
+                const data=await response.json().catch(()=>({}));
+                if(!response.ok)throw new Error(data.detail||`HTTP ${response.status}`);
+                results.push({row_number:row.rowNumber,status:data.status||data.action||'REVIEWED',risk_score:data.risk_score??'',submission_id:data.submission_id||'',findings:(data.violations||[]).join(' | '),explanation:data.explanation||''});
+              }catch(err){results.push({row_number:row.rowNumber,status:'ERROR',risk_score:'',submission_id:'',findings:err.message});}
+            }
+            state.results=results.slice();$('bgCsvReviewed').textContent=state.results.length;
+          }
+          $('bgCsvProgress').textContent=`Finished: ${results.filter(r=>r.status!=='ERROR').length} processed, ${results.filter(r=>r.status==='ERROR').length} errors. Successful reviews are recorded by the backend audit API.`;
+          notify('CSV AI review batch finished. Export the results for your records.');
+          await refreshAuditLogs();
+        }finally{state.busy=false;button.textContent='Review valid rows with AI';updateStats();}
+      });
+      const csvCell=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+      const downloadCSV=(name,headers,rows)=>{
+        const content=[headers.map(csvCell).join(','),...rows.map(r=>headers.map(h=>csvCell(r[h])).join(','))].join('\r\n');
+        const blob=new Blob(['\ufeff',content],{type:'text/csv;charset=utf-8;'});
+        const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
+      };
+      $('bgCsvExport').addEventListener('click',()=>downloadCSV('brandguard-ai-review-results.csv',['row_number','status','risk_score','submission_id','findings','explanation'],state.results));
+      $('bgCsvValidation').addEventListener('click',()=>{
+        const rows=state.rows.map(r=>({row_number:r.rowNumber,valid:String(!r.errors.length&&!r.duplicate),duplicate:String(r.duplicate),errors:r.errors.join(' | '),values:JSON.stringify(r.values)}));
+        downloadCSV('brandguard-csv-validation-report.csv',['row_number','valid','duplicate','errors','values'],rows);
+      });
+      updateStats();
     }
-    function parseCSV(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(c==='"'&&quoted&&n==='"'){cell+='"';i++;}else if(c==='"'){quoted=!quoted;}else if(c===','&&!quoted){row.push(cell);cell='';}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(v=>v.trim()))rows.push(row);row=[];cell='';}else cell+=c;}row.push(cell);if(row.some(v=>v.trim()))rows.push(row);return rows;}
+    function parseCSV(text){
+      const rows=[];let row=[],cell='',quoted=false,afterQuote=false,errors=[],line=1,rowLine=1;
+      for(let i=0;i<text.length;i++){
+        const c=text[i],n=text[i+1];
+        if(quoted){if(c==='"'&&n==='"'){cell+='"';i++;}else if(c==='"'){quoted=false;afterQuote=true;}else{cell+=c;if(c==='\n')line++;}}
+        else if(c==='"'){if(cell.length&&!/^\s*$/.test(cell)){errors.push(`Unexpected quote near line ${line}.`);}else{cell='';quoted=true;}}
+        else if(c===','){row.push(cell);cell='';afterQuote=false;}
+        else if(c==='\n'||c==='\r'){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(v=>v.trim()))rows.push(row);row=[];cell='';afterQuote=false;line++;rowLine=line;}
+        else{if(afterQuote&&!/\s/.test(c))errors.push(`Unexpected character after closing quote near line ${line}.`);cell+=c;}
+      }
+      if(quoted)errors.push(`Unclosed quoted field beginning before line ${line}.`);
+      row.push(cell);if(row.some(v=>v.trim()))rows.push(row);
+      return {rows,errors:[...new Set(errors)]};
+    }
     function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-    function buildAdvisor(view){view.innerHTML=`<div class="bg-feature-head"><div><div class="eyebrow">✦ EVIDENCE-FIRST ASSISTANT</div><h2>AI Governance Advisor</h2><p class="bg-muted">Ask about the latest review or the audit records currently loaded from your backend.</p></div><span class="endpoint">CONTEXTUAL ASSISTANT</span></div><section class="bg-feature-card bg-chat"><div class="bg-chat-log" id="bgAdvisorLog"><div class="bg-chat-msg">Hello. I can summarize the latest review result and the audit records loaded in this workspace. I do not have a separate chat endpoint, so I will not invent answers or claim to perform new AI analysis here.</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-small" data-q="Explain the latest review result">Explain latest review</button><button class="btn btn-small" data-q="Summarize the current audit trail">Summarize audit trail</button><button class="btn btn-small" data-q="What should I review next?">What should I review next?</button></div><form class="bg-chat-form" id="bgAdvisorForm"><input id="bgAdvisorInput" placeholder="Ask about your latest governance activity…" aria-label="Ask governance advisor"><button class="btn btn-primary" type="submit">Ask</button></form><p class="bg-muted">Answers are based only on data already returned by the backend in this session. For new content analysis, use AI Reviewer.</p></section>`;
-      const log=view.querySelector('#bgAdvisorLog');function ask(q){if(!q.trim())return;const u=document.createElement('div');u.className='bg-chat-msg user';u.textContent=q;log.append(u);const a=document.createElement('div');a.className='bg-chat-msg';a.textContent=advisorAnswer(q);log.append(a);log.scrollTop=log.scrollHeight;view.querySelector('#bgAdvisorInput').value='';}view.querySelector('#bgAdvisorForm').addEventListener('submit',e=>{e.preventDefault();ask(view.querySelector('#bgAdvisorInput').value);});view.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>ask(b.dataset.q)));
+    function buildAdvisor(view){
+      const conversation=[];
+      view.innerHTML=`<div class="bg-feature-head"><div><div class="eyebrow">✦ INDEPENDENT AI SERVICE</div><h2>AI Governance Advisor</h2><p class="bg-muted">A separate Gemini-powered governance chat. It does not depend on the currently selected review or audit page.</p></div><span class="endpoint">SESSION CHAT</span></div><section class="bg-feature-card bg-chat"><div class="bg-chat-log" id="bgAdvisorLog" aria-live="polite"><div class="bg-chat-msg">Hello. Ask me about AI governance, responsible deployment, brand safety, privacy controls, risk management or practical remediation.</div></div><form class="bg-chat-form" id="bgAdvisorForm"><input id="bgAdvisorInput" autocomplete="off" placeholder="Ask a governance question…" aria-label="Ask governance advisor"><button class="btn btn-primary" id="bgAdvisorSend" type="submit">Ask AI</button></form><div class="bg-muted" id="bgAdvisorStatus">Conversation is kept in this browser session and is not saved as a backend chat history.</div></section>`;
+      const log=view.querySelector('#bgAdvisorLog'),input=view.querySelector('#bgAdvisorInput'),form=view.querySelector('#bgAdvisorForm'),send=view.querySelector('#bgAdvisorSend'),status=view.querySelector('#bgAdvisorStatus');
+      const append=(text,kind)=>{const d=document.createElement('div');d.className='bg-chat-msg'+(kind==='user'?' user':'');d.textContent=text;log.append(d);log.scrollTop=log.scrollHeight;};
+      async function ask(question){
+        const q=String(question||'').trim();if(!q||send.disabled)return;
+        append(q,'user');conversation.push({role:'user',content:q});input.value='';send.disabled=true;send.textContent='Thinking…';status.textContent='Contacting the independent AI Advisor service…';
+        try{
+          const response=await timeoutFetch(`${api.replace(/\/$/,'')}/api/advisor/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:conversation.slice(-12)})},45000);
+          const data=await response.json().catch(()=>({}));
+          if(!response.ok)throw new Error(data.detail||`Advisor API returned HTTP ${response.status}`);
+          const answer=String(data.answer||data.response||'The Advisor returned an empty response.');
+          conversation.push({role:'assistant',content:answer});append(answer,'assistant');status.textContent=`Independent AI Advisor · ${data.model||'configured Gemini model'} · Session-only history`;
+        }catch(error){conversation.pop();append(`I couldn't reach the AI Advisor service: ${error.message}. Check the backend deployment and GEMINI_API_KEY configuration.`,'assistant');status.textContent='Advisor service unavailable. Your question was not saved.';}
+        finally{send.disabled=false;send.textContent='Ask AI';input.focus();}
+      }
+      form.addEventListener('submit',e=>{e.preventDefault();ask(input.value);});
     }
-    function advisorAnswer(q){const latest=window.latestAnalysis||latestAnalysis||null;const lower=q.toLowerCase();if(lower.includes('latest')||lower.includes('review')){if(!latest)return 'No completed review result is available in this page session yet. Open AI Reviewer, submit content, and return here.';const status=latest.status||latest.decision||'Not supplied',risk=latest.risk_score??'not supplied',issues=latest.violations||latest.findings||latest.detected_violations||[];return `Latest backend review: ${status}. Risk score: ${risk}. Submission ID: ${latest.submission_id||'not supplied'}. Findings: ${issues.length?issues.map(x=>typeof x==='string'?x:(x.description||x.rule||x.type||JSON.stringify(x))).join('; '):'No structured findings returned.'}\nUse the AI Reviewer result panel for the full explanation and evidence.`;}if(lower.includes('audit'))return auditRows.length?`The backend has returned ${auditRows.length} audit records in the current view. Status counts: ${Object.entries(auditRows.reduce((o,r)=>{const s=norm(r.status||r.action||r.sign_off_status)||'UNKNOWN';o[s]=(o[s]||0)+1;return o;},{})).map(([k,v])=>`${k}: ${v}`).join(', ')}. Open Audit trail to inspect individual records.`:'No audit records are loaded yet. Open Audit trail and refresh logs.';if(lower.includes('next')){const flaggedCount=auditRows.filter(r=>flagged.has(norm(r.status||r.action||r.sign_off_status))).length;return flaggedCount?`${flaggedCount} record(s) currently appear flagged in the loaded audit data. Inspect their evidence in Audit trail and send any corrected content through AI Reviewer. Do not approve blocked submissions.`:'No flagged records are visible in the currently loaded audit data. Refresh the audit trail and review any new submissions.';}return 'I can currently answer questions about the latest backend review and the loaded audit trail. Try one of the suggested questions, or run a new analysis in AI Reviewer.';}
     function buildInsights(view){view.innerHTML=`<div class="bg-feature-head"><div><div class="eyebrow">✦ GOVERNANCE INTELLIGENCE</div><h2>Insights</h2><p class="bg-muted">Turn review activity into practical priorities using backend-returned data.</p></div><button class="btn btn-small" id="bgInsightsRefresh">↻ Refresh data</button></div><div class="bg-feature-grid"><div class="bg-feature-card"><div class="metric-head">Loaded audit records</div><div class="metric-value" id="bgInsightTotal">—</div><p class="bg-muted">Records returned by the audit API</p></div><div class="bg-feature-card"><div class="metric-head">Flagged records</div><div class="metric-value" id="bgInsightFlagged">—</div><p class="bg-muted">Require human review</p></div><div class="bg-feature-card"><div class="metric-head">Blocked records</div><div class="metric-value" id="bgInsightBlocked">—</div><p class="bg-muted">Require correction and re-analysis</p></div></div><section class="bg-feature-card" style="margin-top:14px"><h3>Governance signals</h3><div class="bg-insight-list" id="bgInsightList"><div class="bg-insight-item">Refresh audit records to calculate signals from actual backend data.</div></div></section>`;view.querySelector('#bgInsightsRefresh').addEventListener('click',async()=>{await Promise.allSettled([refreshAuditLogs(),refreshAnalytics()]);renderInsightData(view);});renderInsightData(view);}
     function renderInsightData(view){if(!view||!view.isConnected)return;const flaggedRows=auditRows.filter(r=>flagged.has(norm(r.status||r.action||r.sign_off_status))),blockedRows=auditRows.filter(r=>blocked.has(norm(r.status||r.action||r.sign_off_status)));view.querySelector('#bgInsightTotal').textContent=auditRows.length;view.querySelector('#bgInsightFlagged').textContent=flaggedRows.length;view.querySelector('#bgInsightBlocked').textContent=blockedRows.length;const list=view.querySelector('#bgInsightList');list.replaceChildren();const signals=[];if(!auditRows.length)signals.push('No audit records are currently loaded. Refresh the audit trail to retrieve backend data.');else{signals.push(`${flaggedRows.length} of ${auditRows.length} loaded records are flagged. Prioritize evidence review for these submissions.`);signals.push(`${blockedRows.length} of ${auditRows.length} loaded records are blocked. Correct the underlying content and re-run analysis; blocked submissions cannot be manually signed off.`);const high=auditRows.filter(r=>Number(r.risk_score)>=70).length;signals.push(`${high} loaded records have a risk score of 70 or higher, where a score was supplied.`);}signals.forEach(t=>{const d=document.createElement('div');d.className='bg-insight-item';d.textContent=t;list.append(d);});}
     window.refreshBrandGuardInsights = function(){const view=document.querySelector('[data-view="insights"]');if(view)renderInsightData(view);};
