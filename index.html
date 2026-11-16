@@ -192,6 +192,66 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
 @media(prefers-reduced-motion:reduce){.orb-fallback,.orb-ring{animation:none!important}.metric:hover,.panel:hover,.health-card:hover,.standards:hover,.audit:hover{transform:none}}
 </style>
 
+
+<style id="brandguard-hackathon-polish">
+/* Unified BrandGuard search controls */
+#bgCsvSearch, #bgAdvisorInput, .audit-tools input[type="search"],
+input[placeholder*="Search"], input[placeholder*="search"] {
+  box-sizing:border-box; min-height:44px; padding:11px 14px;
+  color:#edf3ff !important;
+  background:linear-gradient(145deg,#091426 0%,#101f36 100%) !important;
+  border:1px solid rgba(111,143,207,.48) !important;
+  border-radius:12px !important;
+  outline:none; font:500 12px/1.45 'Plus Jakarta Sans',sans-serif !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 7px 18px rgba(0,0,0,.13);
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+#bgCsvSearch::placeholder, #bgAdvisorInput::placeholder,
+.audit-tools input::placeholder, input[placeholder*="Search"]::placeholder {
+  color:#8798b4 !important; opacity:1;
+}
+#bgCsvSearch:hover, #bgAdvisorInput:hover,
+.audit-tools input[type="search"]:hover, input[placeholder*="Search"]:hover {
+  border-color:rgba(112,159,239,.78) !important;
+}
+#bgCsvSearch:focus, #bgAdvisorInput:focus,
+.audit-tools input[type="search"]:focus, input[placeholder*="Search"]:focus {
+  border-color:#829aff !important;
+  box-shadow:0 0 0 3px rgba(109,140,255,.19),0 0 22px rgba(109,140,255,.13) !important;
+  background:#0c1b31 !important;
+}
+#bgCsvSearch:disabled {opacity:.48;cursor:not-allowed}
+.bg-chat-form {display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.bg-chat-form #bgAdvisorInput {flex:1 1 260px;min-width:0}
+.bg-chat-form #bgAdvisorSend {min-height:44px;min-width:92px;border-radius:12px}
+.bg-advisor-tools {display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.bg-advisor-suggestions {display:flex;gap:7px;flex-wrap:wrap;margin:0 0 13px}
+.bg-advisor-suggestion {border:1px solid #34476a;background:#111f36;color:#bdcaff;border-radius:999px;padding:7px 10px;font-size:10px;transition:.18s}
+.bg-advisor-suggestion:hover {border-color:#829aff;background:#1a2c4b;color:#fff;transform:translateY(-1px)}
+.bg-chat-clear {border:1px solid #34476a;background:#0c1729;color:#aebdd5;border-radius:9px;padding:7px 10px;font-size:10px}
+.bg-chat-clear:hover {border-color:#829aff;color:#fff}
+.bg-chat-msg {max-width:88%;white-space:pre-wrap;overflow-wrap:anywhere}
+.bg-chat-msg.user {margin-left:auto}
+.bg-chat-log {display:flex;flex-direction:column;gap:10px}
+.bg-table-wrap, .bg-feature-card .table-wrap {max-width:100%;overflow:auto;overscroll-behavior-x:contain;border-radius:10px}
+.bg-table-wrap table, .bg-feature-card .table-wrap table {min-width:720px;width:100%;border-collapse:separate;border-spacing:0}
+#bgCsvHead th {position:sticky;top:0;z-index:2;background:#14233a;color:#9eacc5;box-shadow:0 1px 0 #30415f}
+#bgCsvHead th, #bgCsvBody td {padding:11px 12px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(52,69,98,.42);font-size:10px}
+#bgCsvBody tr:hover td {background:rgba(94,123,180,.07)}
+.bg-validation-badge {display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:700;white-space:nowrap;border:1px solid transparent}
+.bg-validation-badge.valid {color:#75e6bc;background:#103328;border-color:#245744}
+.bg-validation-badge.invalid {color:#ffb0bd;background:#351d2a;border-color:#633244}
+.bg-validation-badge.duplicate {color:#ffd28c;background:#342817;border-color:#644b25}
+.bg-csv-progress {margin-top:12px;padding:11px 12px;border:1px solid #2b3c5b;border-radius:10px;background:#0a1527}
+.bg-csv-progress-track {height:7px;background:#25334b;border-radius:20px;overflow:hidden;margin-top:8px}
+.bg-csv-progress-fill {height:100%;width:0;background:linear-gradient(90deg,#718bff,#4bd7d0);border-radius:20px;transition:width .2s ease}
+.bg-csv-progress-meta {display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#91a2bd;font-size:10px;margin-top:7px}
+.bg-csv-counter-row {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.bg-csv-counter {padding:7px 9px;border:1px solid #2b3c5b;border-radius:9px;background:#0b1729;color:#aebdd4;font:10px ui-monospace,monospace}
+.bg-csv-counter strong {color:#edf3ff}
+@media(max-width:560px){.bg-chat-form #bgAdvisorInput{flex-basis:100%}.bg-chat-form #bgAdvisorSend{width:100%}.bg-chat-msg{max-width:100%}}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -672,7 +732,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
       view.innerHTML = `<div class="bg-feature-head"><div><div class="eyebrow">✦ GOVERNANCE DATA</div><h2>Data workspace</h2><p class="bg-muted">Validate, inspect, deduplicate and submit CSV records to BrandGuard AI. File parsing happens in this browser; selected records are sent to the review API.</p></div><span class="endpoint">CSV + AI REVIEW</span></div>
       <div class="bg-feature-grid"><section class="bg-feature-card" style="grid-column:span 2"><h3>Import dataset</h3><p>Upload a CSV file up to 5 MB. Your original file remains in your browser; only rows you choose to review are sent to the backend.</p><div class="bg-drop" id="bgCsvDrop"><div style="font-size:28px">⇧</div><b>Drop a CSV or browse your device</b><div class="bg-muted">CSV · UTF-8 recommended · maximum 5 MB</div><input id="bgCsvFile" type="file" accept=".csv,text/csv"></div><div id="bgCsvStatus" class="bg-muted" style="margin-top:12px">No dataset selected.</div></section>
       <section class="bg-feature-card"><h3>Dataset health</h3><div class="metric-value" id="bgCsvValid">0</div><p class="bg-muted">Valid rows</p><div class="metric-head">Invalid rows: <b id="bgCsvInvalid">0</b></div><div class="metric-head">Duplicates: <b id="bgCsvDuplicates">0</b></div><div class="metric-head">AI reviewed: <b id="bgCsvReviewed">0</b></div></section></div>
-      <section class="bg-feature-card" style="margin-top:14px"><div class="bg-feature-head"><div><h3>Columns & processing</h3><p class="bg-muted">Choose the column containing copy, content, message or prompt to send for AI review.</p></div></div><div class="bg-feature-grid"><div><label for="bgCsvColumn">Content column</label><select id="bgCsvColumn" style="width:100%" disabled><option value="">Upload a CSV first</option></select></div><div><label for="bgCsvSearch">Search rows</label><input id="bgCsvSearch" type="search" placeholder="Search dataset…" disabled></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-primary" id="bgCsvReview" disabled>Review valid rows with AI</button><button class="btn btn-small" id="bgCsvExport" disabled>Export AI results CSV</button><button class="btn btn-small" id="bgCsvValidation" disabled>Export validation report</button></div><div id="bgCsvProgress" class="bg-muted" style="margin-top:10px" aria-live="polite">Upload a file to begin.</div></section>
+      <section class="bg-feature-card" style="margin-top:14px"><div class="bg-feature-head"><div><h3>Columns & processing</h3><p class="bg-muted">Choose the column containing copy, content, message or prompt to send for AI review.</p></div></div><div class="bg-feature-grid"><div><label for="bgCsvColumn">Content column</label><select id="bgCsvColumn" style="width:100%" disabled><option value="">Upload a CSV first</option></select></div><div><label for="bgCsvSearch">Search rows</label><input id="bgCsvSearch" type="search" placeholder="Search dataset…" disabled></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-primary" id="bgCsvReview" disabled>Review valid rows with AI</button><button class="btn btn-small" id="bgCsvExport" disabled>Export AI results CSV</button><button class="btn btn-small" id="bgCsvValidation" disabled>Export validation report</button></div><div id="bgCsvProgress" class="bg-muted" style="margin-top:10px" aria-live="polite">Upload a file to begin.</div><div class="bg-csv-progress" id="bgCsvProgressPanel" aria-live="polite"><div class="bg-csv-progress-track"><div class="bg-csv-progress-fill" id="bgCsvProgressFill"></div></div><div class="bg-csv-progress-meta"><span id="bgCsvProgressLabel">Waiting for a dataset</span><span id="bgCsvProgressPct">0%</span></div></div><div class="bg-csv-counter-row" id="bgCsvCounters"><span class="bg-csv-counter">Valid <strong id="bgCsvValidMini">0</strong></span><span class="bg-csv-counter">Invalid <strong id="bgCsvInvalidMini">0</strong></span><span class="bg-csv-counter">Duplicates <strong id="bgCsvDuplicateMini">0</strong></span><span class="bg-csv-counter">Reviewed <strong id="bgCsvReviewedMini">0</strong></span></div></section>
       <section class="bg-feature-card" style="margin-top:14px"><div class="bg-feature-head"><div><h3>Dataset preview</h3><p class="bg-muted">Rows with missing fields or inconsistent column counts are excluded from AI submission. Duplicate rows are marked and skipped by default.</p></div><span id="bgCsvCount" class="chip">0 rows</span></div><div class="table-wrap"><table class="bg-table"><thead id="bgCsvHead"><tr><th>Upload a CSV to preview data</th></tr></thead><tbody id="bgCsvBody"><tr><td class="empty">No dataset loaded.</td></tr></tbody></table></div></section>
       <section class="bg-feature-card" style="margin-top:14px"><h3>Validation details</h3><div id="bgCsvIssues" class="bg-insight-list"><div class="bg-insight-item">File validation results will appear here.</div></div></section>`;
       const $ = id => view.querySelector('#'+id);
@@ -683,11 +743,19 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
         $('bgCsvDuplicates').textContent=state.duplicates.length;
         $('bgCsvReviewed').textContent=state.results.length;
         $('bgCsvCount').textContent=`${state.rows.length} data rows`;
+        const mini=(id,value)=>{const node=$(id);if(node)node.textContent=String(value);};
+        mini('bgCsvValidMini',state.validRows.length);mini('bgCsvInvalidMini',state.invalidRows.length);
+        mini('bgCsvDuplicateMini',state.duplicates.length);mini('bgCsvReviewedMini',state.results.length);
         $('bgCsvReview').disabled=!state.validRows.length||state.contentColumn<0||state.busy;
         $('bgCsvExport').disabled=!state.results.length;
         $('bgCsvValidation').disabled=!state.headers.length;
       };
       const issue=(message)=>{const d=document.createElement('div');d.className='bg-insight-item';d.textContent=message;$('bgCsvIssues').append(d);};
+      const setCsvProgress=(done,total,label)=>{
+        const pct=total?Math.round(done/total*100):0;
+        const fill=$('bgCsvProgressFill'),pctNode=$('bgCsvProgressPct'),labelNode=$('bgCsvProgressLabel');
+        if(fill)fill.style.width=pct+'%';if(pctNode)pctNode.textContent=pct+'%';if(labelNode)labelNode.textContent=label||'Processing';
+      };
       const renderPreview=()=>{
         const q=$('bgCsvSearch').value.trim().toLowerCase();
         const head=$('bgCsvHead'),body=$('bgCsvBody');head.replaceChildren();body.replaceChildren();
@@ -696,7 +764,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
         filtered.forEach(r=>{
           const tr=document.createElement('tr');
           r.values.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td);});
-          const td=document.createElement('td');td.textContent=r.duplicate?'Duplicate':r.errors.length?'Invalid':'Valid';td.title=r.errors.join('; ');tr.append(td);body.append(tr);
+          const td=document.createElement('td');const badge=document.createElement('span');badge.className='bg-validation-badge '+(r.duplicate?'duplicate':r.errors.length?'invalid':'valid');badge.textContent=r.duplicate?'Duplicate':r.errors.length?'Invalid':'Valid';td.title=r.errors.join('; ');td.append(badge);tr.append(td);body.append(tr);
         });
         if(!filtered.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=state.headers.length+1;td.className='empty';td.textContent='No matching rows.';tr.append(td);body.append(tr);}
         $('bgCsvCount').textContent=`${state.rows.length} rows · showing ${filtered.length}${state.rows.length>100?' (first 100 matches)':''}`;
@@ -737,6 +805,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
         if(!state.invalidRows.length&&!duplicates.length)issue('Validation passed: no malformed or duplicate rows were found.');
         renderPreview();updateStats();
         $('bgCsvProgress').textContent='Ready. Select the content column, then run AI review.';
+        setCsvProgress(1,1,'CSV parsed and validated locally');
       };
       fileInput.addEventListener('change',async()=>{
         const file=fileInput.files?.[0];if(!file)return;
@@ -762,6 +831,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
             if(!content){results.push({row_number:row.rowNumber,status:'SKIPPED_EMPTY',risk_score:'',submission_id:'',findings:'Selected content cell is empty'});}
             else{
               $('bgCsvProgress').textContent=`Submitting row ${i+1} of ${selected.length} to backend AI review…`;
+              setCsvProgress(i,selected.length,`Reviewing row ${i+1} of ${selected.length}`);
               try{
                 const response=await timeoutFetch(`${api.replace(/\/$/,'')}/api/review/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:content,brand_rules:el('brandRulesInput')?.value||'',modules:['pii','toxicity','brand','injection','copyright'],source:'csv_workspace',source_row:row.rowNumber})},45000);
                 const data=await response.json().catch(()=>({}));
@@ -772,6 +842,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
             state.results=results.slice();$('bgCsvReviewed').textContent=state.results.length;
           }
           $('bgCsvProgress').textContent=`Finished: ${results.filter(r=>r.status!=='ERROR').length} processed, ${results.filter(r=>r.status==='ERROR').length} errors. Successful reviews are recorded by the backend audit API.`;
+          setCsvProgress(selected.length,selected.length,`Completed · ${results.filter(r=>r.status!=='ERROR').length} successful · ${results.filter(r=>r.status==='ERROR').length} errors`);
           notify('CSV AI review batch finished. Export the results for your records.');
           await refreshAuditLogs();
         }finally{state.busy=false;button.textContent='Review valid rows with AI';updateStats();}
@@ -806,7 +877,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
     function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
     function buildAdvisor(view){
       const conversation=[];
-      view.innerHTML=`<div class="bg-feature-head"><div><div class="eyebrow">✦ INDEPENDENT AI SERVICE</div><h2>AI Governance Advisor</h2><p class="bg-muted">A separate Gemini-powered governance chat. It does not depend on the currently selected review or audit page.</p></div><span class="endpoint">SESSION CHAT</span></div><section class="bg-feature-card bg-chat"><div class="bg-chat-log" id="bgAdvisorLog" aria-live="polite"><div class="bg-chat-msg">Hello. Ask me about AI governance, responsible deployment, brand safety, privacy controls, risk management or practical remediation.</div></div><form class="bg-chat-form" id="bgAdvisorForm"><input id="bgAdvisorInput" autocomplete="off" placeholder="Ask a governance question…" aria-label="Ask governance advisor"><button class="btn btn-primary" id="bgAdvisorSend" type="submit">Ask AI</button></form><div class="bg-muted" id="bgAdvisorStatus">Conversation is kept in this browser session and is not saved as a backend chat history.</div></section>`;
+      view.innerHTML=`<div class="bg-feature-head"><div><div class="eyebrow">✦ INDEPENDENT AI SERVICE</div><h2>AI Governance Advisor</h2><p class="bg-muted">A separate Gemini-powered governance chat. It does not depend on the currently selected review or audit page.</p></div><span class="endpoint">SESSION CHAT</span></div><section class="bg-feature-card bg-chat"><div class="bg-advisor-tools"><span class="bg-muted">Ask about governance, risk, privacy or responsible AI</span><button class="bg-chat-clear" id="bgAdvisorClear" type="button">↺ Clear chat</button></div><div class="bg-advisor-suggestions"><button class="bg-advisor-suggestion" type="button" data-question="How can I build an AI governance policy for my organization?">AI governance policy</button><button class="bg-advisor-suggestion" type="button" data-question="What controls should I use to reduce brand safety risks?">Brand safety controls</button><button class="bg-advisor-suggestion" type="button" data-question="How should I assess privacy risks before deploying an AI system?">Privacy risk assessment</button><button class="bg-advisor-suggestion" type="button" data-question="What should an effective human review and sign-off process include?">Human review process</button></div><div class="bg-chat-log" id="bgAdvisorLog" aria-live="polite"><div class="bg-chat-msg">Hello. Ask me about AI governance, responsible deployment, brand safety, privacy controls, risk management or practical remediation.</div></div><form class="bg-chat-form" id="bgAdvisorForm"><input id="bgAdvisorInput" autocomplete="off" placeholder="Ask a governance question…" aria-label="Ask governance advisor"><button class="btn btn-primary" id="bgAdvisorSend" type="submit">Ask AI</button></form><div class="bg-muted" id="bgAdvisorStatus">Conversation is kept in this browser session and is not saved as a backend chat history.</div></section>`;
       const log=view.querySelector('#bgAdvisorLog'),input=view.querySelector('#bgAdvisorInput'),form=view.querySelector('#bgAdvisorForm'),send=view.querySelector('#bgAdvisorSend'),status=view.querySelector('#bgAdvisorStatus');
       const append=(text,kind)=>{const d=document.createElement('div');d.className='bg-chat-msg'+(kind==='user'?' user':'');d.textContent=text;log.append(d);log.scrollTop=log.scrollHeight;};
       async function ask(question){
@@ -822,6 +893,14 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
         finally{send.disabled=false;send.textContent='Ask AI';input.focus();}
       }
       form.addEventListener('submit',e=>{e.preventDefault();ask(input.value);});
+      view.querySelectorAll('[data-question]').forEach(button=>button.addEventListener('click',()=>ask(button.dataset.question)));
+      view.querySelector('#bgAdvisorClear')?.addEventListener('click',()=>{
+        conversation.length=0;
+        log.replaceChildren();
+        append('Chat cleared. Ask a new governance question whenever you are ready.','assistant');
+        status.textContent='New session conversation · history remains in this browser session only.';
+        input.value='';input.focus();
+      });
     }
     function buildInsights(view){view.innerHTML=`<div class="bg-feature-head"><div><div class="eyebrow">✦ GOVERNANCE INTELLIGENCE</div><h2>Insights</h2><p class="bg-muted">Turn review activity into practical priorities using backend-returned data.</p></div><button class="btn btn-small" id="bgInsightsRefresh">↻ Refresh data</button></div><div class="bg-feature-grid"><div class="bg-feature-card"><div class="metric-head">Loaded audit records</div><div class="metric-value" id="bgInsightTotal">—</div><p class="bg-muted">Records returned by the audit API</p></div><div class="bg-feature-card"><div class="metric-head">Flagged records</div><div class="metric-value" id="bgInsightFlagged">—</div><p class="bg-muted">Require human review</p></div><div class="bg-feature-card"><div class="metric-head">Blocked records</div><div class="metric-value" id="bgInsightBlocked">—</div><p class="bg-muted">Require correction and re-analysis</p></div></div><section class="bg-feature-card" style="margin-top:14px"><h3>Governance signals</h3><div class="bg-insight-list" id="bgInsightList"><div class="bg-insight-item">Refresh audit records to calculate signals from actual backend data.</div></div></section>`;view.querySelector('#bgInsightsRefresh').addEventListener('click',async()=>{await Promise.allSettled([refreshAuditLogs(),refreshAnalytics()]);renderInsightData(view);});renderInsightData(view);}
     function renderInsightData(view){if(!view||!view.isConnected)return;const flaggedRows=auditRows.filter(r=>flagged.has(norm(r.status||r.action||r.sign_off_status))),blockedRows=auditRows.filter(r=>blocked.has(norm(r.status||r.action||r.sign_off_status)));view.querySelector('#bgInsightTotal').textContent=auditRows.length;view.querySelector('#bgInsightFlagged').textContent=flaggedRows.length;view.querySelector('#bgInsightBlocked').textContent=blockedRows.length;const list=view.querySelector('#bgInsightList');list.replaceChildren();const signals=[];if(!auditRows.length)signals.push('No audit records are currently loaded. Refresh the audit trail to retrieve backend data.');else{signals.push(`${flaggedRows.length} of ${auditRows.length} loaded records are flagged. Prioritize evidence review for these submissions.`);signals.push(`${blockedRows.length} of ${auditRows.length} loaded records are blocked. Correct the underlying content and re-run analysis; blocked submissions cannot be manually signed off.`);const high=auditRows.filter(r=>Number(r.risk_score)>=70).length;signals.push(`${high} loaded records have a risk score of 70 or higher, where a score was supplied.`);}signals.forEach(t=>{const d=document.createElement('div');d.className='bg-insight-item';d.textContent=t;list.append(d);});}
